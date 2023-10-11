@@ -1,8 +1,6 @@
-// import MainNavigation from './main-navigation';
-
 import Navbar from "./Navbar"
 
-function Layout(props) {
+function Layout(props: any) {
   return (
     <>
       <Navbar />

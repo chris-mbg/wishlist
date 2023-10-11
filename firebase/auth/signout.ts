@@ -1,7 +1,4 @@
-import firebase_app from "../config"
-import { getAuth } from "firebase/auth"
-
-const auth = getAuth(firebase_app)
+import { auth } from "../config"
 
 export default async function signOut() {
   let result = null

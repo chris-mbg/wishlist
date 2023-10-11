@@ -1,9 +1,7 @@
 import { getAuth, User } from "firebase/auth"
-import firebase_app from "@/firebase/config"
+import { auth } from "@/firebase/config"
 import { createContext, useContext, useEffect, useState } from "react"
 import nookies from "nookies"
-
-const auth = getAuth(firebase_app)
 
 export const AuthContext = createContext<{ user: User | null }>({
   user: null,

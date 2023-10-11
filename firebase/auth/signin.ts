@@ -1,7 +1,5 @@
-import firebase_app from "../config"
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth"
-
-const auth = getAuth(firebase_app)
+import { auth } from "../config"
+import { signInWithEmailAndPassword } from "firebase/auth"
 
 export default async function signIn(email: string, password: string) {
   let result = null
@@ -12,6 +10,8 @@ export default async function signIn(email: string, password: string) {
   } catch (err) {
     error = err
   }
+
+  console.log("current user", auth.currentUser)
 
   return { result, error }
 }
