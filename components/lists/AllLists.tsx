@@ -1,8 +1,8 @@
-import { ListOverview } from "@/types/types"
+import { List } from "@/types/types"
 import Link from "next/link"
 
 type AllListsProps = {
-  allLists: ListOverview[]
+  allLists: List[]
 }
 
 function AllLists({ allLists }: AllListsProps) {

@@ -11,7 +11,5 @@ export default async function signIn(email: string, password: string) {
     error = err
   }
 
-  console.log("current user", auth.currentUser)
-
   return { result, error }
 }

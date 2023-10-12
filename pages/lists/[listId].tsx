@@ -1,16 +1,33 @@
+import { useAuthContext } from "@/contexts/AuthContext"
 import { getOne } from "@/firebase/helpers/list"
 import { index } from "@/firebase/helpers/lists"
 import { List } from "@/types/types"
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next"
+import {
+  GetStaticPaths,
+  GetStaticProps,
+  GetStaticPropsContext,
+  InferGetStaticPropsType,
+} from "next"
 
-function ListDetailPage({
-  list,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+function ListDetailPage({ list }: InferGetStaticPropsType<GetStaticProps>) {
+  const { user } = useAuthContext()
+
   return (
-    <div>
-      <h1>Hello let me present list</h1>
-      {JSON.stringify(list)}
-      <h1 className="text-3xl">{list.title}</h1>
+    <div className="mx-auto w-4/5 p-12">
+      <h1 className="text-3xl text-center mb-4">{list.title}</h1>
+      <div className="text-right">
+        <p>{list.ownerEmail}</p>
+        <time>{list.entered}</time>
+      </div>
+      <ul>
+        {list.items.map((item, idx) => (
+          <li key={idx}>
+            {item.title} - {item.description} - <a>{item.link}</a>
+          </li>
+        ))}
+      </ul>
+
+      <div>{user && user.uid === list.ownerId ? "Detta är min lista" : ""}</div>
     </div>
   )
 }
@@ -32,18 +49,26 @@ export const getStaticPaths = (async () => {
   const paramsArray = result.map(list => ({ params: { listId: list.id } }))
   return {
     paths: paramsArray,
-    fallback: false,
+    fallback: "blocking",
   }
 }) satisfies GetStaticPaths
 
-export const getStaticProps = (async context => {
-  const { listId } = context.params
+export const getStaticProps = (async (
+  context: GetStaticPropsContext<{ listId: string }>
+) => {
+  const { listId } = context.params!
 
-  let result
+  let result: List | undefined
   try {
     result = await getOne(listId)
   } catch (err) {
     console.log("Error fetching list", err)
+  }
+
+  if (!result) {
+    return {
+      notFound: true,
+    }
   }
 
   return {

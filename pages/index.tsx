@@ -1,6 +1,6 @@
 import AllLists from "@/components/lists/AllLists"
 import { index } from "@/firebase/helpers/lists"
-import { ListOverview } from "@/types/types"
+import { List } from "@/types/types"
 import { GetStaticProps, InferGetStaticPropsType } from "next"
 import { Inter } from "next/font/google"
 
@@ -17,7 +17,7 @@ export default function Home({
 }
 
 export const getStaticProps = (async () => {
-  let result = []
+  let result: List[] = []
 
   try {
     result = await index()
@@ -32,5 +32,5 @@ export const getStaticProps = (async () => {
     revalidate: 60,
   }
 }) satisfies GetStaticProps<{
-  allLists: ListOverview[]
+  allLists: List[]
 }>

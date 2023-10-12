@@ -1,8 +1,9 @@
 import { collection, doc, getDoc } from "firebase/firestore"
 import { firestore } from "../config"
+import { List } from "@/types/types"
 
-export async function getOne(id: string) {
-  let list
+export async function getOne(id: string): Promise<List> {
+  let list = {}
 
   try {
     const docRef = doc(collection(firestore, "lists"), id)
@@ -20,7 +21,7 @@ export async function getOne(id: string) {
           month: "long",
           day: "numeric",
         }),
-      }
+      } as List
     }
   } catch (err) {
     console.log("Error fetching list")

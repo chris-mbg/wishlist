@@ -1,10 +1,13 @@
-import { ListComplete, ListCreateData, ListOverview } from "@/types/types"
+import { List, ListCreateData } from "@/types/types"
 import { firestore } from "../config"
 import {
   collection,
   addDoc,
   serverTimestamp,
   getDocs,
+  orderBy,
+  query,
+  where,
 } from "firebase/firestore"
 
 export async function store(data: ListCreateData) {
@@ -22,8 +25,16 @@ export async function store(data: ListCreateData) {
   return { docRef }
 }
 
-export async function index(): Promise<ListComplete[]> {
-  const querySnapshot = await getDocs(collection(firestore, "lists"))
+export async function index(userId: string | null = null): Promise<List[]> {
+  const q = userId
+    ? query(
+        collection(firestore, "lists"),
+        where("ownerId", "==", userId),
+        orderBy("entered", "desc")
+      )
+    : query(collection(firestore, "lists"), orderBy("entered", "desc"))
+
+  const querySnapshot = await getDocs(q)
 
   const lists: any[] = []
   querySnapshot.forEach(doc => {
