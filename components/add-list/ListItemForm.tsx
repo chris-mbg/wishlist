@@ -29,29 +29,22 @@ function ListItemForm(props: ListItemFormProps) {
   }
 
   return (
-    <fieldset className="border border-gray-900 p-4 my-4 flex flex-col gap-4">
+    <fieldset className="border border-gray-900 p-4 my-6 flex flex-col gap-4">
       <legend>Lägg till en sak på listan</legend>
-      <div className="flex flex-col">
+      <div className="form-control">
         <label>Vad önskar du dig?</label>
-        <input
-          type="text"
-          className="border-b border-gray-900 p-2"
-          ref={titleRef}
-        />
+        <input type="text" ref={titleRef} placeholder="" />
       </div>
-      <div className="flex flex-col">
+      <div className="form-control">
         <label>Länk</label>
-        <input
-          type="text"
-          className="border-b border-gray-900 p-2"
-          ref={linkRef}
-        />
+        <input type="text" ref={linkRef} placeholder="" />
       </div>
-      <div className="flex flex-col">
+      <div className="form-control">
         <label>Beskrivning</label>
         <textarea
           rows={4}
           className="border border-gray-900 rounded p-2"
+          placeholder="Lägg till en förklaring om du vill"
           ref={descRef}
         ></textarea>
       </div>

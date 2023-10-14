@@ -1,3 +1,4 @@
+import AllLists from "@/components/lists/AllLists"
 import { firebaseAdmin } from "@/firebase/firebaseAdmin"
 import { index } from "@/firebase/helpers/lists"
 import { List } from "@/types/types"
@@ -9,7 +10,7 @@ import {
 import nookies from "nookies"
 
 function UserPage({ lists }: InferGetServerSidePropsType<GetServerSideProps>) {
-  return <>{JSON.stringify(lists)}</>
+  return <AllLists allLists={lists} heading="Alla dina sparade listor" />
 }
 
 export default UserPage

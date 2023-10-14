@@ -2,18 +2,11 @@ import AllLists from "@/components/lists/AllLists"
 import { index } from "@/firebase/helpers/lists"
 import { List } from "@/types/types"
 import { GetStaticProps, InferGetStaticPropsType } from "next"
-import { Inter } from "next/font/google"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export default function Home({
   allLists,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  return (
-    <main className={`min-h-screen p-24 ${inter.className}`}>
-      <AllLists allLists={allLists} />
-    </main>
-  )
+  return <AllLists allLists={allLists} heading="Alla önskelistor" />
 }
 
 export const getStaticProps = (async () => {

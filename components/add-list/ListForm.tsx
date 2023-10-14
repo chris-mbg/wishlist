@@ -40,15 +40,10 @@ function ListForm() {
     console.log("RESPONSE", data)
   }
   return (
-    <form className="w-3/4 lg:w-1/2 mx-auto" onSubmit={handleSubmit}>
-      <div className="flex flex-col">
+    <form className="md:w-3/4 lg:w-1/2 mx-auto" onSubmit={handleSubmit}>
+      <div className="form-control">
         <label htmlFor="list-title">Listans namn</label>
-        <input
-          ref={titleRef}
-          type="text"
-          name="list-title"
-          className="border-b border-gray-900 p-1"
-        />
+        <input ref={titleRef} type="text" name="list-title" />
       </div>
 
       {items.length !== 0 && (

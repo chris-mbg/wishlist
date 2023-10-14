@@ -28,40 +28,34 @@ function LoginPage() {
   }
 
   return (
-    <div className="w-3/4 lg:w-1/2 mx-auto p-8">
+    <div className="md:w-3/4 lg:w-1/2 mx-auto p-8">
       <h1 className="text-center text-2xl">Logga in</h1>
       <form className="flex flex-col m-10 gap-8" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-4">
-          <label htmlFor="email" className="text-lg">
-            E-mail
-          </label>
+        <div className="form-control">
+          <label htmlFor="email">E-mail</label>
           <input
             type="email"
             id="email"
             placeholder="mail@mail.com"
             ref={email}
             required
-            className="outline-none border-b border-gray-900 col-span-4 text-lg p-2 pb-0"
           />
         </div>
-        <div className="flex flex-col gap-4">
-          <label htmlFor="pwd" className="text-lg">
-            Lösenord
-          </label>
+        <div className="form-control">
+          <label htmlFor="pwd">Lösenord</label>
           <input
             type="password"
             id="pwd"
             ref={pwd}
             placeholder="******"
             required
-            className="outline-none border-b border-gray-900 col-span-4 text-lg p-2 pb-0"
           />
         </div>
         <button
           type="submit"
           className="p-2 bg-gray-900 text-white rounded hover:bg-gray-700"
         >
-          Login
+          Logga in
         </button>
       </form>
     </div>

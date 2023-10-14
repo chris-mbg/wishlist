@@ -18,3 +18,13 @@
 
 body {
 }
+
+div.form-control {
+  @apply flex flex-col gap-2;
+}
+.form-control label {
+  @apply uppercase;
+}
+.form-control input {
+  @apply outline-none border-b border-gray-900 col-span-4 text-lg py-4 px-2 pb-0 bg-gray-100 rounded-t;
+}

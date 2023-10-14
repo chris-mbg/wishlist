@@ -3,12 +3,13 @@ import Link from "next/link"
 
 type AllListsProps = {
   allLists: List[]
+  heading: string
 }
 
-function AllLists({ allLists }: AllListsProps) {
+function AllLists({ allLists, heading }: AllListsProps) {
   return (
     <div>
-      <h1 className="text-center text-2xl">Alla önskelistor</h1>
+      <h1 className="text-center text-2xl">{heading}</h1>
       {allLists &&
         allLists.map(list => (
           <Link key={list.id} href={`/lists/${list.id}`}>

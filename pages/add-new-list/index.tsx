@@ -32,7 +32,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     return {
       redirect: {
         permanent: false,
-        destinaion: "/login",
+        destination: "/login",
       },
       props: {} as never,
     }

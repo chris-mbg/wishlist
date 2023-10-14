@@ -1,13 +1,14 @@
 import { useAuthContext } from "@/contexts/AuthContext"
 import { getOne } from "@/firebase/helpers/list"
 import { index } from "@/firebase/helpers/lists"
-import { List } from "@/types/types"
+import { List, ListItem } from "@/types/types"
 import {
   GetStaticPaths,
   GetStaticProps,
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
+import Link from "next/link"
 
 function ListDetailPage({ list }: InferGetStaticPropsType<GetStaticProps>) {
   const { user } = useAuthContext()
@@ -20,14 +21,23 @@ function ListDetailPage({ list }: InferGetStaticPropsType<GetStaticProps>) {
         <time>{list.entered}</time>
       </div>
       <ul>
-        {list.items.map((item, idx) => (
+        {list.items.map((item: ListItem, idx: number) => (
           <li key={idx}>
             {item.title} - {item.description} - <a>{item.link}</a>
           </li>
         ))}
       </ul>
 
-      <div>{user && user.uid === list.ownerId ? "Detta är min lista" : ""}</div>
+      {user && user.uid === list.ownerId ? (
+        <Link
+          href={`/lists/${list.id}/edit`}
+          className="bg-gray-800 text-white p-4 mt-10"
+        >
+          Ändra
+        </Link>
+      ) : (
+        ""
+      )}
     </div>
   )
 }
