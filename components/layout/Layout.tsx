@@ -1,13 +1,18 @@
 import Navbar from "./Navbar"
-import { Inter } from "next/font/google"
+import { Barlow } from "next/font/google"
 
-const inter = Inter({ subsets: ["latin"] })
+const barlow = Barlow({
+  weight: ["300", "400", "500", "600", "800"],
+  subsets: ["latin"],
+})
 
 function Layout(props: any) {
   return (
     <>
       <Navbar />
-      <main className="p-8 lg:p-12 min-h-screen">{props.children}</main>
+      <main className={`p-8 lg:p-12 ${barlow.className}`}>
+        {props.children}
+      </main>
     </>
   )
 }
