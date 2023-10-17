@@ -92,6 +92,9 @@ export const getServerSideProps = (async (
   try {
     const cookies = nookies.get(context);
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+
+    console.log(token);
+
     userId = token.uid;
   } catch (err) {
     return {

@@ -1,9 +1,10 @@
 import { useAuthContext } from '@/contexts/AuthContext';
-import signOut from '@/firebase/auth/signout';
+// import signOut from '@/firebase/auth/signout';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Logo from './Logo';
 import { Barlow } from 'next/font/google';
+import { useSession, signOut } from 'next-auth/react';
 
 const barlow = Barlow({
   weight: ['300', '400', '500', '600', '800'],
@@ -12,12 +13,7 @@ const barlow = Barlow({
 
 export default function Navbar() {
   const router = useRouter();
-  const { user } = useAuthContext();
-
-  const handleLogOut = async () => {
-    await signOut();
-    router.push('/');
-  };
+  const { data: session } = useSession();
 
   return (
     <header
@@ -25,10 +21,9 @@ export default function Navbar() {
     >
       <Logo />
       <nav>
-        {!user && <Link href='/login'>Logga in</Link>}
-        {user && (
+        {!session && <Link href='/login'>Logga in</Link>}
+        {session && (
           <div className='flex items-center gap-4 text-white'>
-            <p className='text-xs'>Inloggad</p>
             <Link href='/' className='navbar-link'>
               Alla önskelistor
             </Link>
@@ -39,8 +34,8 @@ export default function Navbar() {
               Lägg till lista
             </Link>
             <button
-              className='rounded bg-white p-2 text-gray-800 hover:bg-gray-300'
-              onClick={handleLogOut}
+              className='rounded bg-slate-100 p-2 text-sm text-slate-800 hover:bg-slate-300'
+              onClick={() => signOut({ callbackUrl: '/' })}
             >
               Logga ut
             </button>
