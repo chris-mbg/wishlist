@@ -21,7 +21,12 @@ export default function Navbar() {
     >
       <Logo />
       <nav>
-        {!session && <Link href='/login'>Logga in</Link>}
+        {!session && (
+          <div className='flex gap-8'>
+            <Link href='/login'>Logga in</Link>
+            <Link href='/register'>Registrera</Link>
+          </div>
+        )}
         {session && (
           <div className='flex items-center gap-4 text-white'>
             <Link href='/' className='navbar-link'>
