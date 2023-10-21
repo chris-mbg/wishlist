@@ -1,51 +1,48 @@
-import ListItemForm from '@/components/add-list/ListItemForm';
-import ItemForm from '@/components/edit-list/ItemForm';
-import TitleForm from '@/components/edit-list/TitleForm';
-import { firestore } from '@/firebase/config';
-import { firebaseAdmin } from '@/firebase/firebaseAdmin';
-import { getOne } from '@/firebase/helpers/list';
-import { List, ListItem } from '@/types/types';
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { getServerSession } from 'next-auth';
+import { useEffect, useState } from 'react';
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from 'next';
-import nookies from 'nookies';
-import { useEffect, useState } from 'react';
+import { List, ListItem } from '@/types/types';
+import ListItemForm from '@/components/add-list/ListItemForm';
+import ItemForm from '@/components/edit-list/ItemForm';
+import TitleForm from '@/components/edit-list/TitleForm';
+import ListModel from '@/models/List';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import EditItem from '@/components/edit-list/EditItem';
 
 function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
   const [localList, setLocalList] = useState<List>(list);
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(
-      doc(firestore, 'lists', localList.id),
-      (doc) => {
-        console.log('new snapshot', doc.data());
-        setLocalList({ id: doc.id, ...doc.data() });
-      }
-    );
-    return unsubscribe;
-  }, []);
+  // useEffect(() => {
+  //   const unsubscribe = onSnapshot(
+  //     doc(firestore, 'lists', localList.id),
+  //     (doc) => {
+  //       console.log('new snapshot', doc.data());
+  //       setLocalList({ id: doc.id, ...doc.data() });
+  //     }
+  //   );
+  //   return unsubscribe;
+  // }, []);
 
-  const onItemFormSubmit = async (updates: ListItem, idx: number) => {
-    const newItems = localList.items.map((item, i) =>
-      i === idx ? updates : item
-    );
-
-    const docRef = doc(firestore, 'lists', list.id);
-    const result = await updateDoc(docRef, {
-      items: newItems,
-    });
+  const onItemFormSubmit = async (updates: ListItem) => {
+    // const newItems = localList.items.map((item, i) =>
+    //   i === idx ? updates : item
+    // );
+    // const docRef = doc(firestore, 'lists', list.id);
+    // const result = await updateDoc(docRef, {
+    //   items: newItems,
+    // });
   };
 
   const handleNewItemSubmit = async (data: ListItem) => {
-    const newItems = [...localList.items, data];
-
-    const docRef = doc(firestore, 'lists', list.id);
-    const result = await updateDoc(docRef, {
-      items: newItems,
-    });
+    // const newItems = [...localList.items, data];
+    // const docRef = doc(firestore, 'lists', list.id);
+    // const result = await updateDoc(docRef, {
+    //   items: newItems,
+    // });
   };
 
   return (
@@ -54,19 +51,18 @@ function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
         Redigera listan
       </h1>
 
-      <TitleForm listId={localList.id} title={localList.title} />
+      <TitleForm listId={localList._id} title={localList.title} />
 
       <h2>Redigera önskningar</h2>
-      <div className='divide-y divide-slate-400'>
-        {localList.items.map((item, idx) => (
-          <ItemForm
-            key={idx}
-            index={idx}
+      <ul className='divide-y divide-slate-400'>
+        {localList.items.map((item) => (
+          <EditItem
+            key={item._id}
             item={item}
-            handleSubmit={onItemFormSubmit}
+            onItemFormSubmit={onItemFormSubmit}
           />
         ))}
-      </div>
+      </ul>
 
       <p>Lägga till ny item...</p>
       <button>Lägg till nytt</button>
@@ -86,40 +82,33 @@ export default EditPage;
 export const getServerSideProps = (async (
   context: GetServerSidePropsContext
 ) => {
-  let userId: string;
-  const { listId } = context.params!;
+  const session = await getServerSession(context.req, context.res, authOptions);
 
-  try {
-    const cookies = nookies.get(context);
-    const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
-
-    console.log(token);
-
-    userId = token.uid;
-  } catch (err) {
+  if (!session) {
     return {
       redirect: {
         permanent: false,
-        destination: '/login',
+        destination: '/',
       },
     };
   }
 
-  let result: List | undefined;
+  let doc: List | undefined;
+  const { listId } = context.params!;
 
   try {
-    result = await getOne(listId);
+    doc = await ListModel.findById(listId).populate('items').exec();
   } catch (err) {
-    console.error('Error getting list...', err);
+    console.log('Could not find list');
   }
 
-  if (!result) {
+  if (!doc) {
     return {
       notFound: true,
     };
   }
 
-  if (result.ownerId !== userId) {
+  if (doc.owner !== session.user?.email) {
     return {
       redirect: {
         permanent: false,
@@ -130,7 +119,7 @@ export const getServerSideProps = (async (
 
   return {
     props: {
-      list: result,
+      list: JSON.parse(JSON.stringify(doc)),
     },
   };
 }) satisfies GetServerSideProps<{

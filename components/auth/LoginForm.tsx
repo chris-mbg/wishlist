@@ -19,7 +19,6 @@ function LoginForm({ onSubmit }: LoginFormProps) {
 
   return (
     <div>
-      <h1 className='page-title'>Logga in</h1>
       <form
         className='m-10 mx-auto flex w-4/5 flex-col gap-8 lg:w-3/5'
         onSubmit={handleSubmit}

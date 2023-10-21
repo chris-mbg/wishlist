@@ -1,27 +1,28 @@
-import { NextApiRequest } from "next"
+import { NextApiRequest } from 'next';
 
 export type ListItem = {
-  title: string
-  link?: string
-  description?: string
-}
+  _id: string;
+  title: string;
+  link?: string;
+  description?: string;
+};
 
 export interface RequestWithBody<T = any> extends NextApiRequest {
-  body: T
+  body: T;
 }
 
 export type ListCreateData = {
-  title: string
-  items: ListItem[]
-  ownerId: string
-  ownerEmail: string
-}
+  title: string;
+  items: ListItem[];
+  ownerId: string;
+  ownerEmail: string;
+};
 
 export type List = {
-  id: string
-  title: string
-  ownerId: string
-  ownerEmail: string
-  entered: Date | string
-  items: ListItem[]
-}
+  _id: string;
+  title: string;
+  owner: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  items: ListItem[];
+};

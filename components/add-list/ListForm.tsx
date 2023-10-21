@@ -1,11 +1,9 @@
-import { ListItem } from '@/types/types';
 import { useRef, useState } from 'react';
+import { ListItem } from '@/types/types';
 import ListItemForm from './ListItemForm';
-import { useAuthContext } from '@/contexts/AuthContext';
 import ListItemDisplay from './ListItemDisplay';
 
 function ListForm() {
-  const { user } = useAuthContext();
   const titleRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Array<ListItem>>([]);
 
@@ -25,8 +23,6 @@ function ListForm() {
     const listData = {
       title: titleRef.current.value,
       items,
-      ownerId: user?.uid,
-      ownerEmail: user?.email,
     };
 
     const response = await fetch('/api/lists', {
@@ -37,8 +33,6 @@ function ListForm() {
       body: JSON.stringify(listData),
     });
     const data = await response.json();
-
-    console.log('RESPONSE', data);
   };
   return (
     <form className='mx-auto md:w-3/4 lg:w-1/2' onSubmit={handleSubmit}>

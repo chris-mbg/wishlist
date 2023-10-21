@@ -23,6 +23,7 @@ div.form-control {
   @apply flex flex-col gap-2;
 }
 .form-control label {
+  @apply text-left;
 }
 .form-control input,
 .form-control textarea {

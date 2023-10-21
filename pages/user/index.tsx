@@ -1,51 +1,52 @@
-import AllLists from "@/components/lists/AllLists"
-import { firebaseAdmin } from "@/firebase/firebaseAdmin"
-import { index } from "@/firebase/helpers/lists"
-import { List } from "@/types/types"
+import AllLists from '@/components/lists/AllLists';
+import { firebaseAdmin } from '@/firebase/firebaseAdmin';
+import { index } from '@/firebase/helpers/lists';
+import { List } from '@/types/types';
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
-} from "next"
-import nookies from "nookies"
+} from 'next';
+import { getServerSession } from 'next-auth';
+import nookies from 'nookies';
+import { authOptions } from '../api/auth/[...nextauth]';
+import ListModel from '@/models/List';
 
 function UserPage({ lists }: InferGetServerSidePropsType<GetServerSideProps>) {
-  return <AllLists allLists={lists} heading="Alla dina sparade listor" />
+  return <AllLists allLists={lists} heading='Alla dina sparade listor' />;
 }
 
-export default UserPage
+export default UserPage;
 
 export const getServerSideProps = (async (
   context: GetServerSidePropsContext
 ) => {
-  let userId: string
+  const session = await getServerSession(context.req, context.res, authOptions);
 
-  try {
-    const cookies = nookies.get(context)
-    const token = await firebaseAdmin.auth().verifyIdToken(cookies.token)
-    userId = token.uid
-  } catch (err) {
+  if (!session) {
     return {
       redirect: {
         permanent: false,
-        destination: "/login",
+        destination: '/',
       },
-    }
+    };
   }
 
-  let result: List[] = []
+  let docs: List[] = [];
 
   try {
-    result = await index(userId)
+    docs = await ListModel.find({ owner: session.user?.email }).populate(
+      'items'
+    );
   } catch (err) {
-    console.error("Error getting lists...", err)
+    console.error('Error getting lists...');
   }
 
   return {
     props: {
-      lists: result,
+      lists: JSON.parse(JSON.stringify(docs)),
     },
-  }
+  };
 }) satisfies GetServerSideProps<{
-  lists: List[]
-}>
+  lists: List[];
+}>;

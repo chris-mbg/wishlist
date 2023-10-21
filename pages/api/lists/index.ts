@@ -1,32 +1,35 @@
 import type { NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import List from '@/models/List';
 import { ListCreateData, RequestWithBody } from '@/types/types';
-import { index, store } from '@/firebase/helpers/lists';
-import nookies from 'nookies';
-import { firebaseAdmin } from '@/firebase/firebaseAdmin';
+import { authOptions } from '../auth/[...nextauth]';
 
 export default async function handler(
   req: RequestWithBody<ListCreateData>,
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    try {
-      const cookies = nookies.get({ req });
-      console.log(cookies);
-      const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
-    } catch (err) {
+    const session = await getServerSession(req, res, authOptions);
+
+    if (!session) {
       res.status(401).json({ message: 'Not authenticated' });
+      return;
     }
 
-    const { title, items, ownerId, ownerEmail } = req.body;
+    const { title, items } = req.body;
 
-    // console.log('Request auth', req);
-
-    if (title.trim() === '' || !items.length || !ownerId || !ownerEmail) {
+    if (title.trim() === '' || !items.length) {
       res.status(422).json({ message: 'Invalid' });
     }
 
+    const newList = new List({
+      title,
+      items,
+      owner: session?.user?.email,
+    });
+
     try {
-      await store(req.body);
+      await newList.save();
 
       return res.status(201).json({ message: 'List successfully created' });
     } catch (err) {
@@ -36,7 +39,7 @@ export default async function handler(
 
   if (req.method === 'GET') {
     try {
-      const result = await index();
+      const result = await List.find({}).exec();
       res.status(200).json({ message: 'Fetched lists', data: result });
     } catch (err) {
       return res.status(500).json({ message: 'Fetching lists failed' });

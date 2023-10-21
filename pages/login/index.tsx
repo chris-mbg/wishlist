@@ -10,9 +10,10 @@ export default function Login() {
   const { data: session, status } = useSession();
 
   const handleLoginSubmit = async (email: string, password: string) => {
-    signIn('credentials', {
+    const response = await signIn('credentials', {
       email,
       password,
+      callbackUrl: 'http://localhost:3000/',
     });
   };
 
@@ -21,24 +22,22 @@ export default function Login() {
   }
 
   return (
-    <div className=''>
-      <div className='flex w-full items-center justify-center px-2 text-lg'>
+    <div className='text-center'>
+      <h1 className='page-title'>Logga in</h1>
+      <div className='flex justify-center'>
         <GoogleButton />
       </div>
+      <p className='mt-6'>eller med email och lösenord </p>
       <LoginForm onSubmit={handleLoginSubmit} />
       {/* {error && (
         <small className="block w-full px-2 text-red-600">{error}</small>
       )} */}
 
-      <div className='w-full px-2 py-4'>
-        <p>
-          <Link
-            href='/register'
-            className='text-lightColor hover:text-primaryColor hover:underline'
-          >
-            Skapa ett konto
-          </Link>
-        </p>
+      <div className=''>
+        <p className=''>Har du inget konto?</p>
+        <Link href='/register' className='inline font-semibold hover:underline'>
+          Registrera dig här
+        </Link>
       </div>
     </div>
   );

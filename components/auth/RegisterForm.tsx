@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 
 function RegisterForm() {
   const router = useRouter();
@@ -7,9 +7,12 @@ function RegisterForm() {
   const email = useRef<HTMLInputElement>(null);
   const pwd = useRef<HTMLInputElement>(null);
   const userName = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError('');
+
     if (
       !email.current?.value ||
       !pwd.current?.value ||
@@ -31,17 +34,29 @@ function RegisterForm() {
         }),
       });
 
+      if (!res.ok) {
+        setError('Could not save user');
+      }
+
       if (res.status === 201) {
         router.push('/login');
       }
     } catch (err: any) {
-      console.log(err.message);
+      setError(err.message || 'Could not save user');
     }
   };
 
   return (
     <div>
       <h1 className='page-title'>Registrera dig</h1>
+      {error && (
+        <div className='mx-auto w-4/5 border border-red-800 bg-red-200 p-2 text-center text-red-800 lg:w-3/5'>
+          <p className='font-semibold'>Något gick fel...</p>
+          <p>
+            <small>{error}</small>
+          </p>
+        </div>
+      )}
       <form
         className='m-10 mx-auto flex w-4/5 flex-col gap-8 lg:w-3/5'
         onSubmit={handleSubmit}

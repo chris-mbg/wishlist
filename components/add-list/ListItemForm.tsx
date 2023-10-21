@@ -44,7 +44,7 @@ function ListItemForm(props: ListItemFormProps) {
       <div className='form-control'>
         <label>Beskrivning</label>
         <textarea
-          rows={4}
+          rows={2}
           className='rounded p-2'
           placeholder='Lägg till en förklaring om du vill'
           ref={descRef}
