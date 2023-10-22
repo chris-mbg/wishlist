@@ -1,10 +1,10 @@
-import Navbar from "./Navbar"
-import { Barlow } from "next/font/google"
+import Navbar from './Navbar/Navbar';
+import { Barlow } from 'next/font/google';
 
 const barlow = Barlow({
-  weight: ["300", "400", "500", "600", "800"],
-  subsets: ["latin"],
-})
+  weight: ['300', '400', '500', '600', '800'],
+  subsets: ['latin'],
+});
 
 function Layout(props: any) {
   return (
@@ -14,7 +14,7 @@ function Layout(props: any) {
         {props.children}
       </main>
     </>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

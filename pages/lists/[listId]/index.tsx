@@ -8,7 +8,6 @@ import { List } from '@/types/types';
 import { getAllLists, getOneList } from '@/utils/lists/list-utils';
 import ListDetail from '@/components/lists/ListDetail';
 import ListDetailHeader from '@/components/lists/ListDetailHeader';
-import { useAuthContext } from '@/contexts/AuthContext';
 import { useSession } from 'next-auth/react';
 
 function ListDetailPage({ list }: InferGetStaticPropsType<GetStaticProps>) {
