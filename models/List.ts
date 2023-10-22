@@ -10,17 +10,15 @@ const ListSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    items: {
-      type: [
-        {
-          title: String,
-          description: String,
-          link: String,
-        },
-      ],
-    },
+    items: [
+      new mongoose.Schema({
+        title: String,
+        description: String,
+        link: String,
+      }),
+    ],
   },
   { timestamps: true }
 );
 
-export default mongoose.models.List || mongoose.model('List', ListSchema);
+export default mongoose.models?.List || mongoose.model('List', ListSchema);

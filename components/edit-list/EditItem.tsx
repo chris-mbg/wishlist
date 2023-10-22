@@ -5,15 +5,12 @@ import { FaPen, FaTrash } from 'react-icons/fa6';
 
 type EditItemProps = {
   item: ListItem;
-  onItemFormSubmit: (updates: ListItem) => void;
+  onItemFormSubmit: (updates: Partial<ListItem>, itemId: string) => void;
+  onItemDelete: (itemId: string) => void;
 };
 
-function EditItem({ item, onItemFormSubmit }: EditItemProps) {
+function EditItem({ item, onItemFormSubmit, onItemDelete }: EditItemProps) {
   const [showForm, setShowForm] = useState(false);
-
-  const handleDelete = () => {
-    // fetch DELETE (/api/lists/[id])
-  };
 
   if (showForm) {
     return (
@@ -25,14 +22,14 @@ function EditItem({ item, onItemFormSubmit }: EditItemProps) {
     );
   }
   return (
-    <li className='bg-slate-50 p-2 shadow-inner shadow-slate-300'>
+    <li className='mb-4 bg-slate-50 p-6 shadow-inner shadow-slate-300'>
       <div className='flex justify-between'>
         <p className='mb-2 font-semibold'>{item.title}</p>
         <div className='flex gap-6'>
           <FaTrash
             size={18}
             className='cursor-pointer fill-slate-400 hover:fill-red-600'
-            onCLick={handleDelete}
+            onClick={() => onItemDelete(item._id)}
           />
           <FaPen
             size={18}

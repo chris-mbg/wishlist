@@ -16,7 +16,7 @@ function ListInfoCard({ listInfo }: ListInfoCardProps) {
   const { data } = useSession();
 
   return (
-    <Link key={listInfo.id} href={`/lists/${listInfo.id}`}>
+    <Link key={listInfo._id} href={`/lists/${listInfo._id}`}>
       <div className='m-4 cursor-pointer rounded-xl bg-gradient-to-tr from-white to-slate-100 p-6 shadow  hover:shadow-lg hover:shadow-white'>
         <div className='flex justify-between'>
           <h2 className={`${itim.className} text-2xl uppercase`}>

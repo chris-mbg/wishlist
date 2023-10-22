@@ -4,7 +4,7 @@ import { FaRegCircleXmark } from 'react-icons/fa6';
 
 type ItemFormProps = {
   item: ListItem;
-  handleSubmit: (newListItem: ListItem, index: number) => void;
+  handleSubmit: (newListItem: Partial<ListItem>, id: string) => void;
   closeHandler: () => void;
 };
 
@@ -16,14 +16,15 @@ function ItemForm({ item, handleSubmit, closeHandler }: ItemFormProps) {
   const localHandleSubmit = (event: React.FormEvent) => {
     event?.preventDefault();
 
-    // handleSubmit(
-    //   {
-    //     title: titleRef.current?.value ?? item.title,
-    //     link: linkRef.current?.value,
-    //     description: descRef.current?.value,
-    //   },
-    //   index
-    // );
+    handleSubmit(
+      {
+        title: titleRef.current?.value || item.title,
+        link: linkRef.current?.value || '',
+        description: descRef.current?.value || '',
+      },
+      item._id
+    );
+    closeHandler();
   };
 
   return (

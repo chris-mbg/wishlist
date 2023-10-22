@@ -2,8 +2,10 @@ import { ListItem } from '@/types/types';
 import { useRef } from 'react';
 
 interface ListItemFormProps {
-  onSave: (item: ListItem) => void;
+  onSave: (item: Partial<ListItem>) => void;
 }
+
+// TODO More compact layout?
 
 function ListItemForm(props: ListItemFormProps) {
   const titleRef = useRef<HTMLInputElement>(null);
@@ -31,7 +33,7 @@ function ListItemForm(props: ListItemFormProps) {
   return (
     <fieldset className='relative my-6 flex flex-col gap-4 bg-slate-300 p-4 pt-12'>
       <legend className='absolute top-2 uppercase'>
-        Lägg till en sak på listan
+        Lägg till en sak till listan
       </legend>
       <div className='form-control'>
         <label>Vad önskar du dig?</label>

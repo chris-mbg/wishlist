@@ -1,3 +1,4 @@
+import { FaCirclePlus, FaCircleXmark } from 'react-icons/fa6';
 import { getServerSession } from 'next-auth';
 import { useEffect, useState } from 'react';
 import {
@@ -5,16 +6,19 @@ import {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from 'next';
-import { List, ListItem } from '@/types/types';
-import ListItemForm from '@/components/add-list/ListItemForm';
-import ItemForm from '@/components/edit-list/ItemForm';
-import TitleForm from '@/components/edit-list/TitleForm';
-import ListModel from '@/models/List';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { List, ListItem } from '@/types/types';
+import ListModel from '@/models/List';
+import ListItemForm from '@/components/add-list/ListItemForm';
+import TitleForm from '@/components/edit-list/TitleForm';
 import EditItem from '@/components/edit-list/EditItem';
+import dbConnect from '@/utils/dbConnect';
+
+// TODO Error messages! from all forms
 
 function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
   const [localList, setLocalList] = useState<List>(list);
+  const [showNewItemForm, setShowNewItemForm] = useState(false);
 
   // useEffect(() => {
   //   const unsubscribe = onSnapshot(
@@ -27,23 +31,74 @@ function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
   //   return unsubscribe;
   // }, []);
 
-  const onItemFormSubmit = async (updates: ListItem) => {
-    // const newItems = localList.items.map((item, i) =>
-    //   i === idx ? updates : item
-    // );
-    // const docRef = doc(firestore, 'lists', list.id);
-    // const result = await updateDoc(docRef, {
-    //   items: newItems,
-    // });
+  const updateList = async () => {
+    // TODO Loading
+    const res = await fetch(`/api/lists/${list._id}`);
+    const data = await res.json();
+
+    if (res.ok) {
+      setLocalList(data.data);
+    } else {
+      // TODO Error message
+      console.log('Error updating list data');
+    }
   };
 
-  const handleNewItemSubmit = async (data: ListItem) => {
-    // const newItems = [...localList.items, data];
-    // const docRef = doc(firestore, 'lists', list.id);
-    // const result = await updateDoc(docRef, {
-    //   items: newItems,
-    // });
+  const onItemFormSubmit = async (
+    updates: Partial<ListItem>,
+    itemId: string
+  ) => {
+    const response = await fetch(`/api/lists/${list._id}/items/${itemId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ itemId, ...updates }),
+    });
+
+    if (response.ok) {
+      updateList();
+    }
   };
+
+  const handleNewItemSubmit = async (data: Partial<ListItem>) => {
+    const result = await fetch(`/api/lists/${list._id}/items`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!result.ok) {
+      console.log('Not item save');
+      // TODO error message
+    } else {
+      setShowNewItemForm(false);
+
+      const res = await fetch(`/api/lists/${list._id}`);
+      const data = await res.json();
+
+      if (res.ok) {
+        setLocalList(data.data);
+      }
+    }
+  };
+
+  const onItemDelete = async (itemId: string) => {
+    // TODO show confirm modal
+
+    const res = await fetch(`/api/lists/${list._id}/items/${itemId}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) {
+      console.log('Error deleting item');
+    } else {
+      updateList();
+    }
+  };
+
+  // TODO Delete whole list functionality --> show confirm modal
 
   return (
     <div className='mx-auto w-4/5 lg:w-3/5'>
@@ -53,26 +108,42 @@ function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
 
       <TitleForm listId={localList._id} title={localList.title} />
 
-      <h2>Redigera önskningar</h2>
-      <ul className='divide-y divide-slate-400'>
+      <h2 className='mt-2 text-center'>Redigera önskningar</h2>
+      <ul className='mt-4'>
         {localList.items.map((item) => (
           <EditItem
             key={item._id}
             item={item}
             onItemFormSubmit={onItemFormSubmit}
+            onItemDelete={onItemDelete}
           />
         ))}
       </ul>
 
-      <p>Lägga till ny item...</p>
-      <button>Lägg till nytt</button>
+      <button
+        className='ml-auto flex flex-wrap justify-evenly gap-4 rounded border border-slate-600 px-4 py-2 hover:bg-slate-100'
+        onClick={() => setShowNewItemForm((prevVal) => !prevVal)}
+      >
+        {showNewItemForm ? (
+          <>
+            <FaCircleXmark
+              size={24}
+              className='cursor-pointer fill-slate-800 hover:fill-slate-600'
+            />
+            <span>Stäng</span>
+          </>
+        ) : (
+          <>
+            <FaCirclePlus
+              size={24}
+              className='cursor-pointer fill-slate-800 hover:fill-slate-600'
+            />
+            <span>Lägg till något</span>
+          </>
+        )}
+      </button>
 
-      <ListItemForm onSave={handleNewItemSubmit} />
-
-      <h3>Test</h3>
-      {localList.items.map((item: ListItem) => (
-        <li key={item.title}>{item.title}</li>
-      ))}
+      {showNewItemForm && <ListItemForm onSave={handleNewItemSubmit} />}
     </div>
   );
 }
@@ -92,6 +163,7 @@ export const getServerSideProps = (async (
       },
     };
   }
+  await dbConnect();
 
   let doc: List | undefined;
   const { listId } = context.params!;

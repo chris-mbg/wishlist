@@ -1,7 +1,8 @@
-import AllLists from '@/components/lists/AllLists';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import ListModel from '@/models/List';
 import { List } from '@/types/types';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import dbConnect from '@/utils/dbConnect';
+import AllLists from '@/components/lists/AllLists';
 
 export default function Home({
   allLists,
@@ -13,10 +14,10 @@ export const getStaticProps = (async () => {
   let docs: List[] = [];
 
   try {
-    docs = await ListModel.find({}).populate('items');
-    console.log('Home', docs[0].createdAt, docs[0].createdAt instanceof Date);
+    await dbConnect();
+    docs = await ListModel.find({}).sort({ createdAt: -1 }).populate('items');
   } catch (err) {
-    console.error('Error getting lists...');
+    console.error('Error getting lists...', err);
   }
 
   return {

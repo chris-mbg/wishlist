@@ -1,16 +1,16 @@
 import { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import { ListItem } from '@/types/types';
 import ListItemForm from './ListItemForm';
 import ListItemDisplay from './ListItemDisplay';
 
 function ListForm() {
+  const router = useRouter();
   const titleRef = useRef<HTMLInputElement>(null);
-  const [items, setItems] = useState<Array<ListItem>>([]);
+  const [items, setItems] = useState<Array<Partial<ListItem>>>([]);
 
-  const handleAddItem = (itemData: ListItem) => {
-    console.log(itemData);
+  const handleAddItem = (itemData: Partial<ListItem>) =>
     setItems((prevState) => [...prevState, itemData]);
-  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -19,7 +19,7 @@ function ListForm() {
       console.log('Not valid list');
       return;
     }
-
+    // TODO Error message when no title and/or items
     const listData = {
       title: titleRef.current.value,
       items,
@@ -33,6 +33,13 @@ function ListForm() {
       body: JSON.stringify(listData),
     });
     const data = await response.json();
+
+    if (response.status === 201) {
+      router.push('/user');
+    }
+
+    // TODO Error handling/ show user message
+    // TODO Loading state
   };
   return (
     <form className='mx-auto md:w-3/4 lg:w-1/2' onSubmit={handleSubmit}>

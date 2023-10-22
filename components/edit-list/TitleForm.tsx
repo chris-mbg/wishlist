@@ -1,5 +1,3 @@
-import { firestore } from '@/firebase/config';
-import { doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 
 type TitleFormProps = {
@@ -12,11 +10,27 @@ function TitleForm({ listId, title }: TitleFormProps) {
 
   const handleTitleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // TODO Loading
 
-    const docRef = doc(firestore, 'lists', listId);
-    const result = await updateDoc(docRef, {
-      title: newTitle,
+    if (!newTitle || newTitle.trim() === '') {
+      return;
+    }
+
+    const res = await fetch(`/api/lists/${listId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title: newTitle }),
     });
+
+    if (!res.ok) {
+      // TODO Error message
+      console.log('error saving title');
+    } else {
+      console.log('save new title');
+      // TODO Update list data
+    }
   };
 
   return (

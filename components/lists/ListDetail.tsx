@@ -1,6 +1,7 @@
-import { List, ListItem } from '@/types/types';
-import ListDetailItem from './ListDetailItem';
 import { Itim } from 'next/font/google';
+import { List, ListItem } from '@/types/types';
+import { convertDateToLocaleString } from '@/utils/dateHelpers';
+import ListDetailItem from './ListDetailItem';
 
 const itim = Itim({ weight: '400', subsets: ['latin'] });
 
@@ -15,10 +16,10 @@ function ListDetail({ list }: ListDetailProps) {
         {list.title}
       </h1>
       <div className='text-right'>
-        {typeof list.entered === 'string' && <time>{list.entered}</time>}
+        <time>{convertDateToLocaleString(list.createdAt)}</time>
         <p className='italic'>
           Skapad av:{' '}
-          <span className='font-semibold not-italic'>{list.ownerEmail}</span>
+          <span className='font-semibold not-italic'>{list.owner}</span>
         </p>
       </div>
       <ul>

@@ -1,10 +1,10 @@
-import { ListItem } from '@/types/types';
 import { Itim } from 'next/font/google';
+import { ListItem } from '@/types/types';
 
 const itim = Itim({ weight: '400', subsets: ['latin'] });
 
 type ListItemDisplayProps = {
-  item: ListItem;
+  item: Partial<ListItem>;
 };
 
 function ListItemDisplay({ item }: ListItemDisplayProps) {

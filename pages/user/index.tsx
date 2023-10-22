@@ -1,16 +1,14 @@
-import AllLists from '@/components/lists/AllLists';
-import { firebaseAdmin } from '@/firebase/firebaseAdmin';
-import { index } from '@/firebase/helpers/lists';
-import { List } from '@/types/types';
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from 'next';
 import { getServerSession } from 'next-auth';
-import nookies from 'nookies';
 import { authOptions } from '../api/auth/[...nextauth]';
+import { List } from '@/types/types';
 import ListModel from '@/models/List';
+import AllLists from '@/components/lists/AllLists';
+import dbConnect from '@/utils/dbConnect';
 
 function UserPage({ lists }: InferGetServerSidePropsType<GetServerSideProps>) {
   return <AllLists allLists={lists} heading='Alla dina sparade listor' />;
@@ -32,12 +30,13 @@ export const getServerSideProps = (async (
     };
   }
 
+  await dbConnect();
   let docs: List[] = [];
 
   try {
-    docs = await ListModel.find({ owner: session.user?.email }).populate(
-      'items'
-    );
+    docs = await ListModel.find({ owner: session.user?.email })
+      .sort({ createdAt: -1 })
+      .populate('items');
   } catch (err) {
     console.error('Error getting lists...');
   }
