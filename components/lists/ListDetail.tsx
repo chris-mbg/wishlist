@@ -11,11 +11,11 @@ type ListDetailProps = {
 
 function ListDetail({ list }: ListDetailProps) {
   return (
-    <section className='mx-auto w-4/5 rounded-lg bg-slate-100 p-12 shadow-lg shadow-slate-300 lg:w-3/5'>
+    <section className='mx-auto rounded-lg bg-slate-100 p-12 shadow-lg shadow-slate-300 md:w-4/5 xl:w-3/5'>
       <h1 className={`${itim.className} mb-4 text-center text-3xl`}>
         {list.title}
       </h1>
-      <div className='text-right'>
+      <div className='mb-2 text-right'>
         <time>{convertDateToLocaleString(list.createdAt)}</time>
         <p className='italic'>
           Skapad av:{' '}

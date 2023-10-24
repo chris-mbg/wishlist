@@ -28,9 +28,9 @@ function ItemForm({ item, handleSubmit, closeHandler }: ItemFormProps) {
   };
 
   return (
-    <form onSubmit={localHandleSubmit} className=''>
+    <form onSubmit={localHandleSubmit} className='mb-2'>
       <fieldset className='grid grid-cols-6 gap-1 border border-slate-400 p-2'>
-        <div className='col-span-3'>
+        <div className='col-span-5 xl:order-1 xl:col-span-3'>
           <label className='block'>Titel</label>
           <input
             type='text'
@@ -39,29 +39,14 @@ function ItemForm({ item, handleSubmit, closeHandler }: ItemFormProps) {
             className='block w-full rounded bg-slate-50 p-2 text-lg outline-none'
           />
         </div>
-        <div className='col-span-2'>
-          <label>Länk</label>
-          <input
-            type='text'
-            defaultValue={item.link}
-            ref={linkRef}
-            className='block w-full rounded bg-slate-50 p-2 text-lg outline-none'
-          />
-        </div>
-        <div className='col-span-1 row-span-2 flex flex-col items-end justify-between'>
-          <FaRegCircleXmark
-            onClick={closeHandler}
-            size={20}
-            className='cursor-pointer fill-slate-600'
-          />
-          <button
-            type='submit'
-            className='rounded-lg border border-slate-900 px-2 py-1 '
-          >
-            Spara
-          </button>
-        </div>
-        <div className='col-span-5'>
+
+        <FaRegCircleXmark
+          onClick={closeHandler}
+          size={20}
+          className='inline-block cursor-pointer justify-self-end fill-slate-600 xl:order-3'
+        />
+
+        <div className='col-span-5 xl:order-4'>
           <label>Beskrivning</label>
           <textarea
             rows={2}
@@ -70,6 +55,22 @@ function ItemForm({ item, handleSubmit, closeHandler }: ItemFormProps) {
             className='block w-full rounded bg-slate-50 p-2 text-lg outline-none'
           ></textarea>
         </div>
+        <div className='col-span-5 xl:order-2 xl:col-span-2'>
+          <label>Länk</label>
+          <input
+            type='text'
+            defaultValue={item.link}
+            ref={linkRef}
+            className='block w-full rounded bg-slate-50 p-2 text-lg outline-none'
+          />
+        </div>
+
+        <button
+          type='submit'
+          className='col-span-1 self-end justify-self-end rounded-lg border border-slate-900 px-2 py-1 xl:order-5'
+        >
+          Spara
+        </button>
       </fieldset>
     </form>
   );

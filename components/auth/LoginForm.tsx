@@ -20,7 +20,7 @@ function LoginForm({ onSubmit }: LoginFormProps) {
   return (
     <div>
       <form
-        className='m-10 mx-auto flex w-4/5 flex-col gap-8 lg:w-3/5'
+        className='m-10 mx-auto flex flex-col gap-8 md:w-4/5 lg:w-3/5'
         onSubmit={handleSubmit}
       >
         <div className='form-control'>

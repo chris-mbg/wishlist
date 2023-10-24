@@ -1,6 +1,6 @@
 import { FaCirclePlus, FaCircleXmark } from 'react-icons/fa6';
 import { getServerSession } from 'next-auth';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
@@ -19,17 +19,6 @@ import dbConnect from '@/utils/dbConnect';
 function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
   const [localList, setLocalList] = useState<List>(list);
   const [showNewItemForm, setShowNewItemForm] = useState(false);
-
-  // useEffect(() => {
-  //   const unsubscribe = onSnapshot(
-  //     doc(firestore, 'lists', localList.id),
-  //     (doc) => {
-  //       console.log('new snapshot', doc.data());
-  //       setLocalList({ id: doc.id, ...doc.data() });
-  //     }
-  //   );
-  //   return unsubscribe;
-  // }, []);
 
   const updateList = async () => {
     // TODO Loading
@@ -101,7 +90,7 @@ function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
   // TODO Delete whole list functionality --> show confirm modal
 
   return (
-    <div className='mx-auto w-4/5 lg:w-3/5'>
+    <div className='mx-auto md:w-4/5 lg:w-3/5'>
       <h1 className='mb-4 text-center text-2xl font-semibold'>
         Redigera listan
       </h1>

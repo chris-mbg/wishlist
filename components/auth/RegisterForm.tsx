@@ -50,7 +50,7 @@ function RegisterForm() {
     <div>
       <h1 className='page-title'>Registrera dig</h1>
       {error && (
-        <div className='mx-auto w-4/5 border border-red-800 bg-red-200 p-2 text-center text-red-800 lg:w-3/5'>
+        <div className='mx-auto border border-red-800 bg-red-200 p-2 text-center text-red-800 md:w-4/5 lg:w-3/5'>
           <p className='font-semibold'>Något gick fel...</p>
           <p>
             <small>{error}</small>
@@ -58,7 +58,7 @@ function RegisterForm() {
         </div>
       )}
       <form
-        className='m-10 mx-auto flex w-4/5 flex-col gap-8 lg:w-3/5'
+        className='m-10 mx-auto flex flex-col gap-8 md:w-4/5 lg:w-3/5'
         onSubmit={handleSubmit}
       >
         <div className='form-control'>

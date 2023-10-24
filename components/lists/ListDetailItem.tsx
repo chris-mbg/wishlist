@@ -1,6 +1,7 @@
-import { ListItem } from '@/types/types';
-
 import { Itim } from 'next/font/google';
+import { FaGift } from 'react-icons/fa6';
+import { FaExternalLinkAlt } from 'react-icons/fa';
+import { ListItem } from '@/types/types';
 
 const itim = Itim({ weight: '400', subsets: ['latin'] });
 
@@ -10,18 +11,17 @@ type ListDetailItemProps = {
 
 function ListDetailItem({ listItem }: ListDetailItemProps) {
   return (
-    <li className='mb-4'>
-      <h3 className={`${itim.className} text-lg`}>
-        <span className='inline-block w-6 text-2xl font-bold'>-</span>
-        {listItem.title}
-      </h3>
-      <p className='pl-6'>{listItem.description}</p>
+    <li className='mb-4 grid grid-cols-[40px_1fr] '>
+      <FaGift className='col-span-1 inline-block self-center justify-self-start' />
+      <span className={`${itim.className} text-lg`}>{listItem.title}</span>
+      <p className='col-span-1 col-start-2'>{listItem.description}</p>
       {listItem.link && listItem.link.length > 0 && (
         <a
           href={`${listItem.link}`}
           target='_blank'
-          className='mt-2 pl-6 italic text-slate-600 underline'
+          className='col-span-1 col-start-2 mt-2 flex items-center justify-self-start p-1 italic text-slate-600 underline hover:bg-slate-200'
         >
+          <FaExternalLinkAlt className='mr-4 inline-block' />
           Länk
         </a>
       )}
