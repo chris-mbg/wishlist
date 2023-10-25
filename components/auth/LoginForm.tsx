@@ -20,7 +20,7 @@ function LoginForm({ onSubmit }: LoginFormProps) {
   return (
     <div>
       <form
-        className='m-10 mx-auto flex flex-col gap-8 md:w-4/5 lg:w-3/5'
+        className='m-4 mx-auto flex flex-col gap-8 md:w-4/5 lg:w-3/5'
         onSubmit={handleSubmit}
       >
         <div className='form-control'>
@@ -45,7 +45,7 @@ function LoginForm({ onSubmit }: LoginFormProps) {
         </div>
         <button
           type='submit'
-          className='rounded bg-slate-800 p-2 text-white hover:shadow hover:shadow-white'
+          className='rounded bg-red-400 px-4 py-2 text-lg font-semibold text-white hover:bg-red-500'
         >
           Logga in
         </button>

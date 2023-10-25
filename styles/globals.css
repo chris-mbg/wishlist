@@ -27,13 +27,13 @@ div.form-control {
 }
 .form-control input,
 .form-control textarea {
-  @apply col-span-4 rounded bg-slate-50 p-2 text-lg outline-none;
+  @apply col-span-4 rounded bg-slate-50 p-2 text-lg text-slate-900 outline-none;
 }
 
 header nav .navbar-link {
-  @apply relative text-lg font-semibold transition duration-500 ease-in-out after:absolute after:-bottom-2 after:left-0 after:block after:w-0 after:border-b after:border-slate-100 after:content-[''] hover:text-slate-200 hover:after:w-full hover:after:transition-all;
+  @apply relative text-lg font-semibold transition duration-500 ease-in-out after:absolute after:-bottom-2 after:left-0 after:block after:w-0 after:border-b after:border-cyan-100 after:content-[''] hover:text-cyan-200 hover:after:w-full hover:after:transition-all;
 }
 
 h1.page-title {
-  @apply my-6 text-center text-2xl font-semibold;
+  @apply my-2 text-center text-2xl font-semibold md:my-6 lg:text-3xl;
 }

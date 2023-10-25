@@ -12,7 +12,7 @@ export default function MobileNav({ children }: NavProps) {
         {showLinks ? <FaRegCircleXmark size={28} /> : <MdMenu size={28} />}
       </button>
       {showLinks && (
-        <div className='absolute left-0 right-0 top-[100%] bg-gradient-to-b from-slate-500 via-slate-700 to-slate-900 p-4'>
+        <div className='absolute left-0 right-0 top-[100%] bg-gradient-to-tr from-cyan-400 via-cyan-500 to-cyan-700 p-4'>
           <nav className='flex flex-col items-end gap-2'>{children}</nav>
         </div>
       )}

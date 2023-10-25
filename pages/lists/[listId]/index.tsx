@@ -7,25 +7,12 @@ import {
 import { List } from '@/types/types';
 import { getAllLists, getOneList } from '@/utils/lists/list-utils';
 import ListDetail from '@/components/lists/ListDetail';
-import ListDetailHeader from '@/components/lists/ListDetailHeader';
-import { useSession } from 'next-auth/react';
 
-function ListDetailPage({ list }: InferGetStaticPropsType<GetStaticProps>) {
-  const { data: session } = useSession();
-
-  return (
-    <>
-      {session && session.user?.email === list.owner ? (
-        <ListDetailHeader id={list._id} />
-      ) : (
-        ''
-      )}
-      <ListDetail list={list} />
-    </>
-  );
+export default function ListDetailPage({
+  list,
+}: InferGetStaticPropsType<GetStaticProps>) {
+  return <ListDetail list={list} />;
 }
-
-export default ListDetailPage;
 
 export const getStaticPaths = (async () => {
   const { result, error } = await getAllLists();
@@ -49,6 +36,8 @@ export const getStaticProps = (async (
   const { listId } = context.params!;
 
   const { result, error } = await getOneList(listId);
+
+  console.log('Result', result);
 
   if (!result || error) {
     return {

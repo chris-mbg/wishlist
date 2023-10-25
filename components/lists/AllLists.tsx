@@ -9,7 +9,7 @@ type AllListsProps = {
 function AllLists({ allLists, heading }: AllListsProps) {
   return (
     <div>
-      <h1 className={`mb-6 text-center text-3xl`}>{heading}</h1>
+      <h1 className='page-title'>{heading}</h1>
       <div className='grid grid-cols-1 gap-2 lg:grid-cols-2'>
         {allLists &&
           allLists.map((list) => (

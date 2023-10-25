@@ -35,7 +35,7 @@ function TitleForm({ listId, title }: TitleFormProps) {
 
   return (
     <form onSubmit={handleTitleSubmit}>
-      <div className='my-4'>
+      <div className='form-control my-4'>
         <label className='block'>Listans namn</label>
         <input
           type='text'

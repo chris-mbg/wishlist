@@ -6,10 +6,10 @@ const GoogleButton = () => {
     <button
       type='button'
       onClick={() => signIn('google', { callbackUrl: '/' })}
-      className='my-4 flex w-96 cursor-pointer items-center justify-between rounded-lg bg-[#EAECEF]  py-2 pl-4 text-center hover:bg-[#F5F5F5]  sm:py-4'
+      className='my-4 flex cursor-pointer items-center gap-12 rounded-lg bg-slate-100  px-8 py-4 font-semibold text-slate-900 hover:bg-slate-200'
     >
       <FcGoogle size={20} className='align-text-top' />
-      <span>Fortsätt med Google</span>
+      <span className='whitespace-nowrap'>Logga in med Google</span>
       <span></span>
     </button>
   );

@@ -61,10 +61,10 @@ function ListForm() {
 
       <ListItemForm onSave={handleAddItem} />
 
-      <div className='mt-6 text-center'>
+      <div className='mt-6'>
         <button
           type='submit'
-          className='rounded bg-gray-900 px-4 py-2 text-white hover:bg-gray-700'
+          className='w-full rounded bg-red-400 px-4 py-2 text-lg font-semibold text-white hover:bg-red-500'
         >
           Spara önskelistan
         </button>

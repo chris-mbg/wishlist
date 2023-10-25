@@ -10,6 +10,9 @@ const ListSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    owner_username: {
+      type: String,
+    },
     items: [
       new mongoose.Schema({
         title: String,

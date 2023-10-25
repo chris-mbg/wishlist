@@ -90,15 +90,13 @@ function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
   // TODO Delete whole list functionality --> show confirm modal
 
   return (
-    <div className='mx-auto md:w-4/5 lg:w-3/5'>
-      <h1 className='mb-4 text-center text-2xl font-semibold'>
-        Redigera listan
-      </h1>
+    <div className='mx-auto  md:w-4/5 lg:w-3/5'>
+      <h1 className='page-title'>Redigera listan</h1>
 
       <TitleForm listId={localList._id} title={localList.title} />
 
       <h2 className='mt-2 text-center'>Redigera önskningar</h2>
-      <ul className='mt-4'>
+      <ul className='mt-4 text-slate-900'>
         {localList.items.map((item) => (
           <EditItem
             key={item._id}

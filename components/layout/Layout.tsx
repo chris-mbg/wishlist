@@ -10,7 +10,7 @@ function Layout(props: any) {
   return (
     <>
       <Navbar />
-      <main className={`p-8 lg:p-12 ${barlow.className}`}>
+      <main className={`p-4 md:p-8 lg:p-12 ${barlow.className}`}>
         {props.children}
       </main>
     </>

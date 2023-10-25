@@ -41,7 +41,7 @@ export default function Navbar() {
         Lägg till lista
       </Link>
       <button
-        className='rounded bg-slate-100 p-2 text-sm text-slate-800 hover:bg-slate-300'
+        className='rounded bg-slate-100 p-2 text-sm text-slate-900 hover:bg-slate-200'
         onClick={() => signOut({ callbackUrl: '/' })}
       >
         Logga ut
@@ -49,14 +49,18 @@ export default function Navbar() {
     </>
   ) : (
     <>
-      <Link href='/login'>Logga in</Link>
-      <Link href='/register'>Registrera</Link>
+      <Link href='/login' className='navbar-link'>
+        Logga in
+      </Link>
+      <Link href='/register' className='navbar-link'>
+        Registrera
+      </Link>
     </>
   );
 
   return (
     <header
-      className={`relative flex items-center justify-between bg-gradient-to-t from-slate-500 via-slate-700 to-slate-900 p-8 text-white shadow ${barlow.className}`}
+      className={`relative flex items-center justify-between bg-gradient-to-br from-cyan-500 via-cyan-600 to-cyan-700 p-8 text-white shadow drop-shadow ${barlow.className}`}
     >
       <Logo />
 

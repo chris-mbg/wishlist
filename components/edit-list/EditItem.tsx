@@ -33,7 +33,7 @@ function EditItem({ item, onItemFormSubmit, onItemDelete }: EditItemProps) {
           />
           <FaPen
             size={18}
-            className='cursor-pointer fill-slate-600 hover:fill-slate-900'
+            className='cursor-pointer fill-slate-600 hover:fill-red-300'
             onClick={() => setShowForm(true)}
           />
         </div>

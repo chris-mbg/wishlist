@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext } from 'next';
-import nookies from 'nookies';
-import { firebaseAdmin } from '@/firebase/firebaseAdmin';
-import ListForm from '@/components/add-list/ListForm';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { getServerSession } from 'next-auth';
+import { useSession } from 'next-auth/react';
+import { authOptions } from '../api/auth/[...nextauth]';
+import ListForm from '@/components/add-list/ListForm';
 
 function NewListPage() {
   const router = useRouter();
@@ -15,9 +15,7 @@ function NewListPage() {
 
   return (
     <>
-      <h1 className='my-6 text-center text-2xl font-semibold'>
-        Skapa en ny önskelista
-      </h1>
+      <h1 className='page-title'>Skapa en ny önskelista</h1>
       <ListForm />
     </>
   );
@@ -25,25 +23,19 @@ function NewListPage() {
 
 export default NewListPage;
 
-// export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-//   try {
-//     const cookies = nookies.get(ctx);
-//     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context.req, context.res, authOptions);
 
-//     const { uid, email } = token;
-
-//     return {
-//       props: {
-//         message: 'User authenticated',
-//       },
-//     };
-//   } catch (err) {
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: '/login',
-//       },
-//       props: {} as never,
-//     };
-//   }
-// }
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  } else {
+    return {
+      props: {},
+    };
+  }
+}

@@ -22,10 +22,13 @@ export default async function handler(
       res.status(422).json({ message: 'Invalid' });
     }
 
+    console.log('SEssion user', session.user);
+
     const newList = new List({
       title,
       items,
-      owner: session?.user?.email,
+      owner: session.user?.email,
+      owner_username: session.user?.username,
     });
 
     try {

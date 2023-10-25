@@ -17,25 +17,25 @@ function ListInfoCard({ listInfo }: ListInfoCardProps) {
 
   return (
     <Link key={listInfo._id} href={`/lists/${listInfo._id}`}>
-      <div className='m-4 cursor-pointer rounded-xl bg-gradient-to-tr from-white to-slate-100 p-6 shadow  hover:shadow-lg hover:shadow-white'>
+      <div className='m-4 cursor-pointer rounded-xl bg-gradient-to-tr from-white to-slate-100 p-2 text-slate-900  shadow hover:to-slate-300 hover:shadow hover:shadow-white md:p-6'>
         <div className='flex justify-between'>
-          <h2 className={`${itim.className} text-2xl uppercase`}>
-            {listInfo.title}
-          </h2>
+          <h2 className={`${itim.className} text-2xl`}>{listInfo.title}</h2>
 
           {data?.user?.email === listInfo.owner && (
             <Link href={`/lists/${listInfo._id}/edit`} passHref legacyBehavior>
-              <span>
-                <FaPen />
+              <span className='px-1'>
+                <FaPen className=' hover:fill-red-400' size={18} />
               </span>
             </Link>
           )}
         </div>
-        <div className='mt-4 flex justify-between'>
+        <div className='mt-4 flex flex-col justify-between md:flex-row'>
           <time>{convertDateToLocaleString(listInfo.createdAt)}</time>
           <p className='italic'>
             Skapad av:{' '}
-            <span className='font-semibold not-italic'>{listInfo.owner}</span>
+            <span className='font-semibold not-italic'>
+              {listInfo.owner_username ?? listInfo.owner}
+            </span>
           </p>
         </div>
       </div>

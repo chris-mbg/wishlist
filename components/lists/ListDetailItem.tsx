@@ -11,7 +11,7 @@ type ListDetailItemProps = {
 
 function ListDetailItem({ listItem }: ListDetailItemProps) {
   return (
-    <li className='mb-4 grid grid-cols-[40px_1fr] '>
+    <li className='mb-4 grid grid-cols-[40px_1fr] text-slate-900'>
       <FaGift className='col-span-1 inline-block self-center justify-self-start' />
       <span className={`${itim.className} text-lg`}>{listItem.title}</span>
       <p className='col-span-1 col-start-2'>{listItem.description}</p>
