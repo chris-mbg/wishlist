@@ -13,6 +13,7 @@ import ListItemForm from '@/components/add-list/ListItemForm';
 import TitleForm from '@/components/edit-list/TitleForm';
 import EditItem from '@/components/edit-list/EditItem';
 import dbConnect from '@/utils/dbConnect';
+import Button from '@/components/ui/Button';
 
 // TODO Error messages! from all forms
 
@@ -90,7 +91,7 @@ function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
   // TODO Delete whole list functionality --> show confirm modal
 
   return (
-    <div className='mx-auto  md:w-4/5 lg:w-3/5'>
+    <div className='mx-auto md:w-4/5 lg:w-3/5'>
       <h1 className='page-title'>Redigera listan</h1>
 
       <TitleForm listId={localList._id} title={localList.title} />
@@ -107,15 +108,15 @@ function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
         ))}
       </ul>
 
-      <button
-        className='ml-auto flex flex-wrap justify-evenly gap-4 rounded border border-slate-600 px-4 py-2 hover:bg-slate-100'
+      <Button
+        className='ml-auto'
         onClick={() => setShowNewItemForm((prevVal) => !prevVal)}
       >
         {showNewItemForm ? (
           <>
             <FaCircleXmark
               size={24}
-              className='cursor-pointer fill-slate-800 hover:fill-slate-600'
+              className='cursor-pointer fill-slate-100 hover:fill-slate-600'
             />
             <span>Stäng</span>
           </>
@@ -123,14 +124,27 @@ function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
           <>
             <FaCirclePlus
               size={24}
-              className='cursor-pointer fill-slate-800 hover:fill-slate-600'
+              className='cursor-pointer fill-slate-100 hover:fill-slate-200'
             />
-            <span>Lägg till något</span>
+            <span>Lägg till önskning</span>
           </>
         )}
-      </button>
+      </Button>
 
-      {showNewItemForm && <ListItemForm onSave={handleNewItemSubmit} />}
+      {showNewItemForm && (
+        <ListItemForm onSave={handleNewItemSubmit} editMode={true} />
+      )}
+
+      <hr className='mt-8 border border-red-400 opacity-50' />
+
+      <div className='text-center'>
+        <button
+          className='mt-2 rounded p-2 font-semibold hover:text-slate-200'
+          disabled
+        >
+          Ta bort listan
+        </button>
+      </div>
     </div>
   );
 }

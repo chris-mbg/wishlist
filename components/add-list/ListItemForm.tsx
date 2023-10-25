@@ -3,11 +3,12 @@ import { useRef } from 'react';
 
 interface ListItemFormProps {
   onSave: (item: Partial<ListItem>) => void;
+  editMode?: boolean;
 }
 
 // TODO More compact layout?
 
-function ListItemForm(props: ListItemFormProps) {
+function ListItemForm({ onSave, editMode = false }: ListItemFormProps) {
   const titleRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
@@ -17,7 +18,7 @@ function ListItemForm(props: ListItemFormProps) {
       return;
     }
 
-    props.onSave({
+    onSave({
       title: titleRef.current.value,
       link: linkRef.current?.value ?? '',
       description: descRef.current?.value ?? '',
@@ -35,10 +36,13 @@ function ListItemForm(props: ListItemFormProps) {
       <legend className='absolute top-2 font-semibold'>
         Lägg till en sak till listan
       </legend>
-      <p className='text-sm'>
-        Glöm inte att spara varje önskning innan du sparar hela listan. Men det
-        går alltid att gå tillbaka och ändra och lägga till önskningar senare.
-      </p>
+      {!editMode && (
+        <p className='text-sm'>
+          Glöm inte att spara varje önskning innan du sparar hela listan. Men
+          det går alltid att gå tillbaka och ändra och lägga till önskningar
+          senare.
+        </p>
+      )}
       <div className='form-control'>
         <label>Vad önskar du dig?</label>
         <input

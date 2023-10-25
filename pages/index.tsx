@@ -29,5 +29,3 @@ export const getStaticProps = (async () => {
 }) satisfies GetStaticProps<{
   allLists: List[];
 }>;
-
-// TODO DB safety rules: Check owner of document before  updating or removing

@@ -1,7 +1,9 @@
+import { NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import List from '@/models/List';
 import { RequestWithBody } from '@/types/types';
 import dbConnect from '@/utils/dbConnect';
-import { NextApiResponse } from 'next';
 
 export default async function handler(
   req: RequestWithBody,
@@ -13,10 +15,19 @@ export default async function handler(
     return;
   }
 
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
+
   try {
     await dbConnect();
 
     const parentDoc = await List.findById(listId);
+
+    if (parentDoc.owner !== session.user.email) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
 
     parentDoc.items.push(req.body);
     await parentDoc.save();

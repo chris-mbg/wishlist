@@ -11,7 +11,7 @@ export default async function handler(
   req: RequestWithBody,
   res: NextApiResponse
 ) {
-  const session = getServerSession(req, res, authOptions);
+  const session = await getServerSession(req, res, authOptions);
 
   if (!session) {
     res.status(401).json({ message: 'Not authenticated' });
@@ -26,6 +26,11 @@ export default async function handler(
   try {
     await dbConnect();
     parentDoc = await List.findById(listId);
+
+    if (parentDoc.owner !== session.user.email) {
+      return res.status(403).json({ message: 'Not authenticated' });
+    }
+
     subDoc = parentDoc.items.id(itemId);
   } catch (err) {
     res.status(500).json({ message: 'Error connecting to db...' });

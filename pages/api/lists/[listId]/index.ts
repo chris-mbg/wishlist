@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getOneList } from '@/utils/lists/list-utils';
 import dbConnect from '@/utils/dbConnect';
 import List from '@/models/List';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../../auth/[...nextauth]';
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,6 +24,7 @@ export default async function handler(
   if (req.method === 'PATCH') {
     // TODO functionality to update title
     const { title } = req.body;
+    const session = await getServerSession(req, res, authOptions);
 
     if (!title || title.trim() === '') {
       return res.status(422).json({ message: 'Not valid' });
@@ -29,7 +32,12 @@ export default async function handler(
 
     try {
       await dbConnect();
-      const doc = await List.findByIdAndUpdate(listId, { title }).exec();
+      const doc = await List.findByIdAndUpdate(
+        listId,
+        { title },
+        { owner: session?.user.email }
+      ).exec();
+
       return res.status(200).json({ message: 'Success', data: doc });
     } catch (err) {
       return res.status(500).json({ message: 'Could not save update' });

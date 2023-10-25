@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdMenu } from 'react-icons/md';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 import { NavProps } from './DesktopNav';
@@ -6,16 +6,34 @@ import { NavProps } from './DesktopNav';
 export default function MobileNav({ children }: NavProps) {
   const [showLinks, setShowLinks] = useState(false);
 
+  useEffect(() => {
+    console.log('In useEffect ');
+    const clickHandler = () => {
+      setTimeout(() => setShowLinks(false), 100);
+    };
+
+    window.addEventListener('click', clickHandler);
+
+    return () => window.removeEventListener('click', clickHandler);
+  }, []);
+
+  const handleToggleClick = (e) => {
+    e.stopPropagation();
+    setShowLinks((prev) => !prev);
+  };
+
   return (
     <>
-      <button onClick={() => setShowLinks((prev) => !prev)}>
+      <button onClick={handleToggleClick} id='mobileNavToggle'>
         {showLinks ? <FaRegCircleXmark size={28} /> : <MdMenu size={28} />}
       </button>
       {showLinks && (
-        <div className='absolute left-0 right-0 top-[100%] bg-gradient-to-tr from-cyan-400 via-cyan-500 to-cyan-700 p-4'>
-          <nav className='flex flex-col items-end gap-2'>{children}</nav>
+        <div className='z-100 absolute left-0 right-0 top-[100%] bg-gradient-to-tr from-cyan-500 via-cyan-600 to-cyan-700 p-4'>
+          <nav className='flex flex-col items-end gap-4'>{children}</nav>
         </div>
       )}
     </>
   );
 }
+
+// TODO Add new list --> fieldset overlays
