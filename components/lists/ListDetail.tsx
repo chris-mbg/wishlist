@@ -22,7 +22,7 @@ function ListDetail({ list }: ListDetailProps) {
 
       <section className='rounded-lg bg-slate-100 p-4 text-slate-900 shadow shadow-slate-300 lg:p-12'>
         <h1
-          className={`${itim.className} mb-4 text-center text-xl md:text-3xl`}
+          className={`${itim.className} mb-4 text-center text-2xl md:text-3xl xl:text-4xl`}
         >
           {list.title}
         </h1>

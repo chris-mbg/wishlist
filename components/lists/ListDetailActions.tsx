@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Button from '../ui/Button';
+import DeleteListButton from '../edit-list/DeleteListButton';
 
 type ListDetailActionsProps = {
   id: string;
@@ -7,12 +8,10 @@ type ListDetailActionsProps = {
 
 function ListDetailActions({ id }: ListDetailActionsProps) {
   return (
-    <div className='mb-4 flex justify-end gap-4'>
-      <button disabled className='p-1 font-semibold'>
-        Ta bort lista
-      </button>
+    <div className='mb-4 flex items-center justify-end gap-4'>
+      <DeleteListButton listId={id} />
       <Link href={`/lists/${id}/edit`} className=''>
-        <Button>Redigera</Button>
+        <Button onClick={() => {}}>Redigera</Button>
       </Link>
     </div>
   );

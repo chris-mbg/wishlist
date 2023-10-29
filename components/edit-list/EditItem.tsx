@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ListItem } from '@/types/types';
 import ItemForm from './ItemForm';
-import { FaPen, FaTrash } from 'react-icons/fa6';
+import EditDeleteIcons from '../ui/EditDeleteIcons';
 
 type EditItemProps = {
   item: ListItem;
@@ -25,18 +25,10 @@ function EditItem({ item, onItemFormSubmit, onItemDelete }: EditItemProps) {
     <li className='mb-4 bg-slate-50 p-6 shadow-inner shadow-slate-300'>
       <div className='flex justify-between'>
         <p className='mb-2 font-semibold'>{item.title}</p>
-        <div className='flex gap-6'>
-          <FaTrash
-            size={18}
-            className='cursor-pointer fill-slate-400 hover:fill-red-600'
-            onClick={() => onItemDelete(item._id)}
-          />
-          <FaPen
-            size={18}
-            className='cursor-pointer fill-slate-600 hover:fill-red-300'
-            onClick={() => setShowForm(true)}
-          />
-        </div>
+        <EditDeleteIcons
+          onEditClick={() => setShowForm(true)}
+          onDeleteClick={() => onItemDelete(item._id)}
+        />
       </div>
       <div className='flex justify-between'>
         {item.description && <p>{item.description}</p>}{' '}

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { FormEvent, useRef, useState } from 'react';
+import ErrorAlert from '../ui/ErrorAlert';
 
 function RegisterForm() {
   const router = useRouter();
@@ -49,14 +50,7 @@ function RegisterForm() {
   return (
     <div>
       <h1 className='page-title'>Registrera dig</h1>
-      {error && (
-        <div className='mx-auto border border-red-800 bg-red-200 p-2 text-center text-red-800 md:w-4/5 lg:w-3/5'>
-          <p className='font-semibold'>Något gick fel...</p>
-          <p>
-            <small>{error}</small>
-          </p>
-        </div>
-      )}
+      {error && <ErrorAlert className='md:w-4/5 lg:w-3/5 '>{error}</ErrorAlert>}
       <form
         className='m-4 mx-auto flex flex-col gap-8 md:w-4/5 lg:w-3/5'
         onSubmit={handleSubmit}

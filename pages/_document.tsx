@@ -4,9 +4,9 @@ export default function Document() {
   return (
     <Html lang='en'>
       <Head />
-      <body className='min-h-screen bg-cyan-900 text-white'>
-        {/* <body className="min-h-screen bg-gradient-to-br from-slate-200 from-60% to-slate-400"> */}
+      <body className='relative min-h-screen bg-cyan-900 text-white'>
         <Main />
+        {/* <div id='modal-root'></div> */}
         <NextScript />
       </body>
     </Html>

@@ -30,6 +30,8 @@ export const getServerSideProps = (async (
     };
   }
 
+  console.log('SESSION USER', session.user);
+
   await dbConnect();
   let docs: List[] = [];
 

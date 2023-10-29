@@ -14,8 +14,7 @@ import TitleForm from '@/components/edit-list/TitleForm';
 import EditItem from '@/components/edit-list/EditItem';
 import dbConnect from '@/utils/dbConnect';
 import Button from '@/components/ui/Button';
-
-// TODO Error messages! from all forms
+import DeleteListButton from '@/components/edit-list/DeleteListButton';
 
 function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
   const [localList, setLocalList] = useState<List>(list);
@@ -138,12 +137,7 @@ function EditPage({ list }: InferGetServerSidePropsType<GetServerSideProps>) {
       <hr className='mt-8 border border-red-400 opacity-50' />
 
       <div className='text-center'>
-        <button
-          className='mt-2 rounded p-2 font-semibold hover:text-slate-200'
-          disabled
-        >
-          Ta bort listan
-        </button>
+        <DeleteListButton listId={list._id} />
       </div>
     </div>
   );

@@ -3,23 +3,26 @@ import { useRouter } from 'next/router';
 import { ListItem } from '@/types/types';
 import ListItemForm from './ListItemForm';
 import ListItemDisplay from './ListItemDisplay';
+import ErrorAlert from '../ui/ErrorAlert';
 
 function ListForm() {
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Array<Partial<ListItem>>>([]);
+  const [error, setError] = useState('');
 
   const handleAddItem = (itemData: Partial<ListItem>) =>
     setItems((prevState) => [...prevState, itemData]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setError('');
 
     if (!titleRef.current || titleRef.current.value === '' || !items.length) {
-      console.log('Not valid list');
+      setError('Listan saknar titel eller önskningar');
       return;
     }
-    // TODO Error message when no title and/or items
+
     const listData = {
       title: titleRef.current.value,
       items,
@@ -34,15 +37,17 @@ function ListForm() {
     });
     const data = await response.json();
 
-    if (response.status === 201) {
+    if (response.ok && response.status === 201) {
       router.push('/user');
+    } else {
+      setError('Kunde inte spara lista...');
     }
 
-    // TODO Error handling/ show user message
     // TODO Loading state
   };
   return (
     <form className='mx-auto md:w-3/4 lg:w-1/2' onSubmit={handleSubmit}>
+      {error && <ErrorAlert className='my-4'>{error}</ErrorAlert>}
       <div className='form-control'>
         <label htmlFor='list-title'>Listans namn</label>
         <input ref={titleRef} type='text' name='list-title' />

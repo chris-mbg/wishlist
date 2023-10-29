@@ -7,6 +7,7 @@ import { Barlow } from 'next/font/google';
 import Logo from '../Logo';
 import MobileNav from './MobileNav';
 import DesktopNav from './DesktopNav';
+import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
 
 const barlow = Barlow({
   weight: ['300', '400', '500', '600', '800'],
@@ -20,7 +21,7 @@ export default function Navbar() {
 
   const [windowWidth, setWindowWidth] = useState<number>();
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setWindowWidth(window.innerWidth);
   }, []);
 
@@ -62,7 +63,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`relative flex items-center justify-between bg-gradient-to-br from-cyan-500 via-cyan-600 to-cyan-700 p-8 text-white shadow drop-shadow ${barlow.className}`}
+      className={`relative z-20 flex items-center justify-between bg-gradient-to-br from-cyan-500 via-cyan-600 to-cyan-700 p-8 text-white shadow drop-shadow ${barlow.className}`}
     >
       <Logo />
 
