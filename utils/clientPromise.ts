@@ -1,15 +1,18 @@
 // This approach is taken from https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
-import { MongoClient } from "mongodb";
+import { MongoClient } from 'mongodb';
 
-if (!process.env.MONGODB_URI) {
-  throw new Error("Please add your Mongo URI to .env.local");
+if (!process.env.MONGODB_URI_DEV && !process.env.MONGODB_URI_PROD) {
+  throw new Error('Please add your Mongo URI to .env.local');
 }
 
-const uri: string = process.env.MONGODB_URI;
+const uri: string =
+  process.env.NODE_ENV === 'development'
+    ? process.env.MONGODB_URI_DEV
+    : process.env.MONGODB_URI_PROD;
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === 'development') {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
 
