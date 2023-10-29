@@ -1,5 +1,4 @@
 'use client';
-import useModal from '@/hooks/useModal';
 import { useRouter } from 'next/router';
 
 type DeleteListButtonProps = {
