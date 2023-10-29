@@ -7,8 +7,8 @@ if (!process.env.MONGODB_URI_DEV && !process.env.MONGODB_URI_PROD) {
 
 const uri: string =
   process.env.NODE_ENV === 'development'
-    ? process.env.MONGODB_URI_DEV
-    : process.env.MONGODB_URI_PROD;
+    ? process.env.MONGODB_URI_DEV!
+    : process.env.MONGODB_URI_PROD!;
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 

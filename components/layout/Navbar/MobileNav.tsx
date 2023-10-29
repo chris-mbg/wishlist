@@ -17,7 +17,7 @@ export default function MobileNav({ children }: NavProps) {
     return () => window.removeEventListener('click', clickHandler);
   }, []);
 
-  const handleToggleClick = (e) => {
+  const handleToggleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setShowLinks((prev) => !prev);
   };

@@ -30,9 +30,11 @@ export const getStaticPaths = (async () => {
   };
 }) satisfies GetStaticPaths;
 
-export const getStaticProps = (async (
+export const getStaticProps = async (
   context: GetStaticPropsContext<{ listId: string }>
-) => {
+): Promise<
+  { props: { list: List }; revalidate: number } | { notFound: boolean }
+> => {
   const { listId } = context.params!;
 
   const { result, error } = await getOneList(listId);
@@ -51,6 +53,4 @@ export const getStaticProps = (async (
     },
     revalidate: 60,
   };
-}) satisfies GetStaticProps<{
-  list: List;
-}>;
+};

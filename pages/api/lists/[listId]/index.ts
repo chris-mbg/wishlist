@@ -50,25 +50,29 @@ export default async function handler(
   }
 
   if (req.method === 'DELETE') {
-    await dbConnect();
-    const doc = await List.findOne({
-      _id: listId,
-      owner: session.user.email,
-    })
-      .populate('items')
-      .exec();
+    try {
+      await dbConnect();
+      const doc = await List.findOne({
+        _id: listId,
+        owner: session.user.email,
+      })
+        .populate('items')
+        .exec();
 
-    if (!doc) {
-      return res.status(400).json({ message: 'Could not find document' });
+      if (!doc) {
+        return res.status(400).json({ message: 'Could not find document' });
+      }
+
+      doc.items.forEach(async (item: any) => await item.deleteOne());
+
+      const result = await List.findOneAndDelete({
+        _id: listId,
+        owner: session.user.email,
+      }).exec();
+
+      return res.status(200).json({ message: 'List deleted' });
+    } catch (err) {
+      return res.status(500).json({ message: 'Could not delete list' });
     }
-
-    doc.items.forEach(async (item) => await item.deleteOne());
-
-    const result = await List.findOneAndDelete({
-      _id: listId,
-      owner: session.user.email,
-    }).exec();
-
-    return res.status(200).json({ message: 'List deleted' });
   }
 }

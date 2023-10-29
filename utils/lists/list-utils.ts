@@ -22,7 +22,7 @@ export async function getAllLists() {
 
   try {
     await dbConnect();
-    result = await ListModel.find({}).populate('items').exec();
+    result = (await ListModel.find({}).populate('items').exec()) as List[];
   } catch (err) {
     error = err;
   }

@@ -1,7 +1,7 @@
 import {
+  GetServerSideProps,
   GetServerSidePropsContext,
-  GetStaticProps,
-  InferGetStaticPropsType,
+  InferGetServerSidePropsType,
 } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
@@ -15,13 +15,16 @@ import AllLists from '@/components/lists/AllLists';
 
 export default function Home({
   allLists,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return <AllLists allLists={allLists} heading='Alla önskelistor' />;
 }
 
-export const getServerSideProps = (async (
+export const getServerSideProps = async (
   context: GetServerSidePropsContext
-) => {
+): Promise<
+  | { props: { allLists: List[] } }
+  | { redirect: { permanent: boolean; destination: string } }
+> => {
   const session = await getServerSession(context.req, context.res, authOptions);
 
   if (!session) {
@@ -44,9 +47,7 @@ export const getServerSideProps = (async (
 
   return {
     props: {
-      allLists: JSON.parse(JSON.stringify(docs)),
+      allLists: JSON.parse(JSON.stringify(docs)) as List[],
     },
   };
-}) satisfies GetServerSideProps<{
-  lists: List[];
-}>;
+};
