@@ -20,6 +20,7 @@ export default async function handler(
 
     if (title.trim() === '' || !items.length) {
       res.status(422).json({ message: 'Invalid' });
+      return;
     }
 
     const newList = new List({
@@ -32,9 +33,11 @@ export default async function handler(
     try {
       await newList.save();
 
-      return res.status(201).json({ message: 'List successfully created' });
+      res.status(201).json({ message: 'List successfully created' });
+      return;
     } catch (err) {
-      return res.status(500).json({ message: 'Saving list failed' });
+      res.status(500).json({ message: 'Saving list failed' });
+      return;
     }
   }
 
@@ -43,7 +46,7 @@ export default async function handler(
       const result = await List.find({}).exec();
       res.status(200).json({ message: 'Fetched lists', data: result });
     } catch (err) {
-      return res.status(500).json({ message: 'Fetching lists failed' });
+      res.status(500).json({ message: 'Fetching lists failed' });
     }
   }
 }
