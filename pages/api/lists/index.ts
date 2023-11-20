@@ -22,8 +22,6 @@ export default async function handler(
       res.status(422).json({ message: 'Invalid' });
     }
 
-    console.log('SEssion user', session.user);
-
     const newList = new List({
       title,
       items,
