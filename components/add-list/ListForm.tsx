@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { ListItem } from '@/types/types';
 import ListItemForm from './ListItemForm';
 import ListItemDisplay from './ListItemDisplay';
-import ErrorAlert from '../ui/ErrorAlert';
+import ErrorAlert from '../ui/Alert';
 
 function ListForm() {
   const router = useRouter();

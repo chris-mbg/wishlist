@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { FormEvent, useRef, useState } from 'react';
-import ErrorAlert from '../ui/ErrorAlert';
+import ErrorAlert from '../ui/Alert';
 
 function RegisterForm() {
   const router = useRouter();
@@ -40,7 +40,7 @@ function RegisterForm() {
       }
 
       if (res.status === 201) {
-        router.push('/login');
+        router.push('/login?new-user=true');
       }
     } catch (err: any) {
       setError(err.message || 'Could not save user');
