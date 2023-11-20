@@ -7,7 +7,6 @@ export default function MobileNav({ children }: NavProps) {
   const [showLinks, setShowLinks] = useState(false);
 
   useEffect(() => {
-    console.log('In useEffect ');
     const clickHandler = () => {
       setTimeout(() => setShowLinks(false), 100);
     };

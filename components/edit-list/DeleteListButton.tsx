@@ -21,8 +21,6 @@ function DeleteListButton({ listId }: DeleteListButtonProps) {
       if (res.ok) {
         router.push('/');
       }
-
-      console.log(json);
     } else {
       return;
     }
