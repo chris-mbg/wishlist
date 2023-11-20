@@ -28,10 +28,10 @@ function ItemForm({ item, handleSubmit, closeHandler }: ItemFormProps) {
   };
 
   return (
-    <form onSubmit={localHandleSubmit} className='mb-2'>
+    <form onSubmit={localHandleSubmit} className='mb-4'>
       <fieldset className='grid grid-cols-6 gap-1 border border-slate-400 p-2'>
         <div className='col-span-5 xl:order-1 xl:col-span-3'>
-          <label className='block'>Titel</label>
+          <label className='block text-slate-50'>Titel</label>
           <input
             type='text'
             defaultValue={item.title}
@@ -43,11 +43,11 @@ function ItemForm({ item, handleSubmit, closeHandler }: ItemFormProps) {
         <FaRegCircleXmark
           onClick={closeHandler}
           size={20}
-          className='inline-block cursor-pointer justify-self-end fill-slate-600 xl:order-3'
+          className='inline-block cursor-pointer justify-self-end fill-slate-100 hover:fill-slate-300 xl:order-3'
         />
 
         <div className='col-span-5 xl:order-4'>
-          <label>Beskrivning</label>
+          <label className='text-slate-50'>Beskrivning</label>
           <textarea
             rows={2}
             defaultValue={item.description}
@@ -56,7 +56,7 @@ function ItemForm({ item, handleSubmit, closeHandler }: ItemFormProps) {
           ></textarea>
         </div>
         <div className='col-span-5 xl:order-2 xl:col-span-2'>
-          <label>Länk</label>
+          <label className='text-slate-50'>Länk</label>
           <input
             type='text'
             defaultValue={item.link}
@@ -67,7 +67,7 @@ function ItemForm({ item, handleSubmit, closeHandler }: ItemFormProps) {
 
         <button
           type='submit'
-          className='col-span-1 self-end justify-self-end rounded-lg border border-slate-900 px-2 py-1 xl:order-5'
+          className='col-span-1 self-end justify-self-end rounded-lg border border-slate-50 px-2 py-1 text-slate-50 hover:bg-slate-500 xl:order-5'
         >
           Spara
         </button>

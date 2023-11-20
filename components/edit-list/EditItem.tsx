@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ListItem } from '@/types/types';
 import ItemForm from './ItemForm';
 import EditDeleteIcons from '../ui/EditDeleteIcons';
+import { assurePrefix } from '@/utils/lists/list-utils';
 
 type EditItemProps = {
   item: ListItem;
@@ -32,7 +33,7 @@ function EditItem({ item, onItemFormSubmit, onItemDelete }: EditItemProps) {
       </div>
       <div className='flex justify-between'>
         {item.description && <p>{item.description}</p>}{' '}
-        {item.link && <a href={item.link} target='_blank'></a>}
+        {item.link && <a href={assurePrefix(item.link)} target='_blank'></a>}
       </div>
     </li>
   );

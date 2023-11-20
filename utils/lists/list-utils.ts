@@ -29,3 +29,6 @@ export async function getAllLists() {
 
   return { result, error };
 }
+
+export const assurePrefix = (url: string) =>
+  url.match(/^.{3,5}\:\/\//) ? url : `http://${url}`;
