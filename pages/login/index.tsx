@@ -4,13 +4,16 @@ import Link from 'next/link';
 import { useSession, signIn } from 'next-auth/react';
 import GoogleButton from '@/components/auth/GoogleButton';
 import LoginForm from '@/components/auth/LoginForm';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+import Alert from '@/components/ui/Alert';
 
 export default function Login() {
   const router = useRouter();
   const [error, setError] = useState('');
 
   const { data: session, status } = useSession();
+  if (status === 'authenticated') {
+    router.push('/');
+  }
 
   const handleLoginSubmit = async (email: string, password: string) => {
     setError('');
@@ -33,14 +36,24 @@ export default function Login() {
       .catch((err) => setError(err.message ?? 'något gick galet..'));
   };
 
-  if (status === 'authenticated') {
-    router.push('/');
-  }
-
   return (
     <div className='mx-auto text-center md:w-4/5 xl:w-3/5'>
       <h1 className='page-title'>Logga in</h1>
-      {error && <ErrorAlert className='md:w-4/5 lg:w-3/5 '>{error}</ErrorAlert>}
+      {!!router.query['new-user'] && (
+        <Alert
+          variant='success'
+          className='mb-6 md:w-4/5 lg:w-3/5'
+          title='Du är registrerad!'
+        >
+          Logga in med din email och ditt lösenord.
+        </Alert>
+      )}
+      {error && (
+        <Alert className='md:w-4/5 lg:w-3/5' variant={'error'}>
+          {error}
+        </Alert>
+      )}
+      {}
       <div className='flex justify-center'>
         <GoogleButton />
       </div>
