@@ -28,7 +28,7 @@ function ListForm() {
       items,
     };
 
-    const response = await fetch('/api/lists', {
+    const response = await fetch('/api/lists/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
