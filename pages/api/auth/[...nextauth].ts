@@ -4,7 +4,7 @@ import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/utils/dbConnect';
-import clientPromise from '@/utils/clientPromise';
+import clientPromise from '@/lib/clientPromise';
 import bcrypt from 'bcryptjs';
 import User from '@/models/User';
 
