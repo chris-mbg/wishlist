@@ -39,8 +39,6 @@ export const getStaticProps = async (
 
   const { result, error } = await getOneList(listId);
 
-  console.log('Result', result);
-
   if (!result || error) {
     return {
       notFound: true,
@@ -51,6 +49,6 @@ export const getStaticProps = async (
     props: {
       list: JSON.parse(JSON.stringify(result)),
     },
-    revalidate: 60,
+    revalidate: 10,
   };
 };

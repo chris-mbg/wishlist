@@ -27,7 +27,7 @@ export default function MobileNav({ children }: NavProps) {
         {showLinks ? <FaRegCircleXmark size={28} /> : <MdMenu size={28} />}
       </button>
       {showLinks && (
-        <div className='fixed left-0 right-0 top-[100%] z-10 bg-gradient-to-tr from-cyan-500 via-cyan-600 to-cyan-700 p-4'>
+        <div className='absolute left-0 right-0 top-[100%] z-10 bg-gradient-to-tr from-cyan-500 via-cyan-600 to-cyan-700 p-4'>
           <nav className='flex flex-col items-end gap-4'>{children}</nav>
         </div>
       )}
