@@ -45,7 +45,7 @@ export default function Navbar() {
       </Link>
       <button
         className='rounded bg-slate-100 p-2 text-sm text-slate-900 hover:bg-slate-200'
-        onClick={() => signOut({ callbackUrl: '/login' })}
+        onClick={() => signOut({ callbackUrl: '/' })}
       >
         Logga ut
       </button>

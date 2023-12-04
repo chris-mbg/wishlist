@@ -25,16 +25,16 @@ export const getServerSideProps = async (
   | { props: { allLists: List[] } }
   | { redirect: { permanent: boolean; destination: string } }
 > => {
-  const session = await getServerSession(context.req, context.res, authOptions);
+  // const session = await getServerSession(context.req, context.res, authOptions);
 
-  if (!session) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/login',
-      },
-    };
-  }
+  // if (!session) {
+  //   return {
+  //     redirect: {
+  //       permanent: false,
+  //       destination: '/login',
+  //     },
+  //   };
+  // }
 
   let docs: List[] = [];
 
