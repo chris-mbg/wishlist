@@ -33,7 +33,7 @@ export const getStaticPaths = (async () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ listId: string }>
 ): Promise<
-  { props: { list: List }; revalidate: number } | { notFound: boolean }
+  { props: { list: List }; revalidate: boolean } | { notFound: boolean }
 > => {
   const { listId } = context.params!;
 
@@ -49,6 +49,6 @@ export const getStaticProps = async (
     props: {
       list: JSON.parse(JSON.stringify(result)),
     },
-    revalidate: 0,
+    revalidate: false,
   };
 };

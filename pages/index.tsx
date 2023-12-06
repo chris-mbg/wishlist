@@ -20,7 +20,7 @@ export default function Home({
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<
-  | { props: { allLists: List[] }; revalidate: number }
+  | { props: { allLists: List[] }; revalidate: boolean }
   | { redirect: { permanent: boolean; destination: string } }
 > => {
   let docs: List[] = [];
@@ -36,6 +36,6 @@ export const getServerSideProps = async (
     props: {
       allLists: JSON.parse(JSON.stringify(docs)) as List[],
     },
-    revalidate: 0,
+    revalidate: false,
   };
 };
