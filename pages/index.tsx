@@ -3,8 +3,6 @@ import {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]';
 import ListModel from '@/models/List';
 import { List } from '@/types/types';
 import dbConnect from '@/utils/dbConnect';
@@ -22,20 +20,9 @@ export default function Home({
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<
-  | { props: { allLists: List[] } }
+  | { props: { allLists: List[] }; revalidate: number }
   | { redirect: { permanent: boolean; destination: string } }
 > => {
-  // const session = await getServerSession(context.req, context.res, authOptions);
-
-  // if (!session) {
-  //   return {
-  //     redirect: {
-  //       permanent: false,
-  //       destination: '/login',
-  //     },
-  //   };
-  // }
-
   let docs: List[] = [];
 
   try {
@@ -49,5 +36,6 @@ export const getServerSideProps = async (
     props: {
       allLists: JSON.parse(JSON.stringify(docs)) as List[],
     },
+    revalidate: 0,
   };
 };

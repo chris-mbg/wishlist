@@ -49,6 +49,6 @@ export const getStaticProps = async (
     props: {
       list: JSON.parse(JSON.stringify(result)),
     },
-    revalidate: 10,
+    revalidate: 0,
   };
 };
