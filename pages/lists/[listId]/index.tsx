@@ -1,40 +1,21 @@
 import {
-  GetStaticPaths,
-  GetStaticProps,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
 } from 'next';
 import { List } from '@/types/types';
-import { getAllLists, getOneList } from '@/utils/lists/list-utils';
+import { getOneList } from '@/utils/lists/list-utils';
 import ListDetail from '@/components/lists/ListDetail';
 
 export default function ListDetailPage({
   list,
-}: InferGetStaticPropsType<GetStaticProps>) {
+}: InferGetServerSidePropsType<GetServerSideProps>) {
   return <ListDetail list={list} />;
 }
 
-export const getStaticPaths = (async () => {
-  const { result, error } = await getAllLists();
-
-  if (!result || error) {
-    return { paths: [], fallback: true };
-  }
-
-  const paramsArray = result.map((list) => ({
-    params: { listId: list._id.toString() },
-  }));
-  return {
-    paths: paramsArray,
-    fallback: 'blocking',
-  };
-}) satisfies GetStaticPaths;
-
-export const getStaticProps = async (
-  context: GetStaticPropsContext<{ listId: string }>
-): Promise<
-  { props: { list: List }; revalidate: boolean } | { notFound: boolean }
-> => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext<{ listId: string }>
+): Promise<{ props: { list: List } } | { notFound: boolean }> => {
   const { listId } = context.params!;
 
   const { result, error } = await getOneList(listId);
@@ -49,6 +30,5 @@ export const getStaticProps = async (
     props: {
       list: JSON.parse(JSON.stringify(result)),
     },
-    revalidate: false,
   };
 };

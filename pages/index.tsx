@@ -1,8 +1,4 @@
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from 'next';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import ListModel from '@/models/List';
 import { List } from '@/types/types';
 import dbConnect from '@/utils/dbConnect';
@@ -20,7 +16,7 @@ export default function Home({
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<
-  | { props: { allLists: List[] }; revalidate: boolean }
+  | { props: { allLists: List[] } }
   | { redirect: { permanent: boolean; destination: string } }
 > => {
   let docs: List[] = [];
@@ -36,6 +32,5 @@ export const getServerSideProps = async (
     props: {
       allLists: JSON.parse(JSON.stringify(docs)) as List[],
     },
-    revalidate: false,
   };
 };
